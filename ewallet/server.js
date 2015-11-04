@@ -71,4 +71,10 @@ io.on('connection', function(socket){
     		socket.emit('result', 'failed');
     	}
 	});
+
+	socket.on('getAllClients', function(){
+		console.log('msg arrives at server for getting all clients');
+		socket.emit('result' , clients);
+		console.log('all data is collected');
+	});	
 });
