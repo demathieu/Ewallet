@@ -26,21 +26,25 @@ var coupons = [
 function findClientOnID(id){
 	var i = 0;
 	while (i < clients.length){
-				if (clients[i].ID == id){
-					return clients[i];
-				}
+			if (clients[i].ID == id){
+				return clients[i];
+			}
+			i++;
 	}
 	throw 'Id is not found in the list of clients';
 }
 
 function findCouponOnID(id){
 	var i = 0;
-	while (i < id.length){
-				if (coupons[i].id == id){
-					return coupons[i];
-				}
+	console.log(id);
+	while (i < coupons.length){
+			console.log(coupons[i].id);
+			if (coupons[i].id == id){
+				return coupons[i];
+			}
+			i++;
 	}
-	throw 'Id is not found in the list of coupons'; 
+	console.log('Id is not found in the list of coupons'); 
 }
 
 io.on('connection', function(socket){
@@ -61,7 +65,9 @@ io.on('connection', function(socket){
 	socket.on('addCouponToClient', function(data){
 		console.log('msg arrives at server for coupon');
 		if(data.clientID && data.couponID){
+			console.log('vars zijn geladen');
 			client = findClientOnID(data.clientID);
+			console.log('hij vindt de client');
 			client.listOfCoupons.push(findCouponOnID(data.couponID));
 			console.log('added coupon to the list')
 			console.log(client);
