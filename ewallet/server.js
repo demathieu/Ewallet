@@ -47,6 +47,23 @@ function findCouponOnID(id){
 	console.log('Id is not found in the list of coupons'); 
 }
 
+function removeCouponsFromUser(client,numberOfCoupons){
+	for (i = 0; i < numberOfCoupons; i++){
+		coupons.push(client.listOfCoupons.pop());
+	}
+}
+
+function addCouponsToUser(client,numberOfCoupons){
+	console.log('checkt hier is::::::');
+	console.log(numberOfCoupons);
+
+	for(i = 0; i < numberOfCoupons; i++){
+		client.listOfCoupons.push(coupons.pop());
+		console.log("hier");
+	}
+	console.log(client);
+}
+
 io.on('connection', function(socket){
 	console.log('connection');
 	socket.on('addClient', function(client){
@@ -64,13 +81,13 @@ io.on('connection', function(socket){
   });
 	socket.on('addCouponToClient', function(data){
 		console.log('msg arrives at server for coupon');
-		if(data.clientID && data.couponID){
+		if(data.clientID && data.amountOfCoupons){
 			console.log('vars zijn geladen');
 			client = findClientOnID(data.clientID);
 			console.log('hij vindt de client');
-			client.listOfCoupons.push(findCouponOnID(data.couponID));
+			addCouponsToUser(client,data.amountOfCoupons);
 			console.log('added coupon to the list')
-			console.log(client);
+			console.log(clients);
 			socket.emit('result' , 'done');
   		}
     	else{
@@ -83,4 +100,19 @@ io.on('connection', function(socket){
 		socket.emit('result' , clients);
 		console.log('all data is collected');
 	});	
+
+	socket.on('shop', function(data){
+		console.log('entered the shop on server');
+		if (data.userID && data.amountOfCoupons){
+			client = findClientOnID(data.userID);
+			removeCouponsFromUser(client,data.amountOfCoupons);
+			socket.emit('result','done');
+			console.log('thing is sold and coupons are changed from owner');
+		}
+		else{
+			console.log('something went wrong in the shop');
+			socket.emit('result', 'failure');
+		}
+	});
+
 });
