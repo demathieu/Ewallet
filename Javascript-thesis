@@ -1,0 +1,5 @@
+sudo npm install -g node-gyp
+sudo aptitude install build-essential g++
+sudo npm install socket.io
+sudo npm install harmony-reflect
+sudo npm install express
