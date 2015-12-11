@@ -1,5 +1,7 @@
 "use strict";
 
+//bob.allow(execute,’GiveMoney’,Alice)
+
 var alice = {
 			firstname:'Jan',
 			lastName:'Smith',

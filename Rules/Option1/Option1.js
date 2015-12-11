@@ -1,11 +1,10 @@
 var harmony =require('harmony-reflect');
 
 
-function createHandler(whiteList){
+function crHandler(whiteList){
 
 	return handler = {
 		get: function (target,name){
-			console.log("test");
 			console.log(whiteList);
 			if (whiteList.indexOf(whiteList) == -1){
 				console.log('No access');
@@ -18,25 +17,46 @@ function createHandler(whiteList){
 
 }
 
+function crHandlerForRules(){
+
+	return handler = {
+		get: function (target,name){
+			console.log(name);
+			if (name == 'allow'){
+				console.log('then');
+				var proxy = new Proxy(target,crHandler('spendCoupon'));
+				console.log('create proxy');
+				return proxy
+			}
+			else{
+				//return target[name];
+				console.log('else')
+			}	
+		}
+	}
+
+}
 
 
 function load (filePath,whiteList){
 	var importedObject = require (filePath);
-	var handler = createHandler(whiteList);
+	var handler = crHandlerForRules(whiteList);
 	var proxyClient = new Proxy(importedObject,handler);
 	return proxyClient;
 }
 ///////////////////////////////////////////////////////////////////// ALL Above is Backhand
 
-//bob.allow(execute,’GiveMoney’,Alice)
+//bob.allow(execute,’spendCoupon’,Alice)
 
-var whiteList = ['stealCoupon'];
-var alice = load('./alice.js',whiteList)
-var bob = load('./bob.js',whiteList)
+//var whiteList = ['stealCoupon'];
+//var alice = load('./alice.js',whiteList)
+var bob = load('./bob.js')
+//var bob = require('./bob.js');
 
-alice.friendList.push(bob);
+var bobRuleApplied = bob.allow('execute','spendCoupon','Alice'); 
+alice.friendList.push(bobRuleApplied);
 
-console.log(alice.stealCoupon(0));
+//console.log(alice.stealCoupon(0));
 
 
 

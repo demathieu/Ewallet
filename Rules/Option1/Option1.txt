@@ -1,0 +1,7 @@
+//bob.allow(execute,’spendCoupon’,Alice)
+
+Bob allows Alice to executy the spendCoupon function
+
+It is a bit cumbersome you need to give the function name + the object where you can find the function. There should be a way where you could integrate those two together. 
+
+also the conditionfield is not really set or you need to see "Give Money" as a condition
