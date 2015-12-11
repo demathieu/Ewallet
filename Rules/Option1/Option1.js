@@ -28,7 +28,7 @@ function load (filePath,whiteList){
 }
 ///////////////////////////////////////////////////////////////////// ALL Above is Backhand
 
-
+//bob.allow(execute,’GiveMoney’,Alice)
 
 var whiteList = ['stealCoupon'];
 var alice = load('./alice.js',whiteList)
