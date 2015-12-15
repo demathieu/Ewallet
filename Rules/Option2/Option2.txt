@@ -1,0 +1,8 @@
+
+//new Policy()
+//.deny(‘spendCoupon’)
+//.from(‘bob’)
+//.to(‘alice’) .install()
+
+
+bob is not allowed to touch spendCoupon function from alice
