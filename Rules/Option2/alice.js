@@ -1,6 +1,7 @@
 "use strict";
 
 
+
 //new Policy()
 //.deny(‘spendCoupon’)
 //.from(‘bob’)
