@@ -6,7 +6,8 @@ function crHandlerWhite(whiteList){
 	return handler = {
 		get: function (target,name){
 			if (whiteList.indexOf(name) == -1){
-				console.log('No access');
+				var err = new Error('No access')
+    			throw err
 			}
 			else{
 				return target[name];
@@ -24,7 +25,8 @@ function crHandlerBlack(blackList){
 				return target[name];
 			}
 			else{
-				return console.log('No access');
+				var err = new Error('No access')
+    			throw err
 			}	
 		}
 	}

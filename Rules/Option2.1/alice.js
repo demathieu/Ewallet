@@ -42,13 +42,26 @@ var option2 = require('./option2.js');
 console.log(alice.firstname);
 
 console.log(alice.amount = 100);
-alice.removeAmount(10);
+
+try {
+	alice.removeAmount(10);
+} catch (err) {
+    // handle the error safely
+    console.log(err)
+}
+
 console.log(alice.amount);
 
 console.log(bob.firstname);
 
 console.log(bob.amount = 100);
-bob.removeAmount(10);
+
+try {
+	bob.removeAmount(10);
+} catch (err) {
+    // handle the error safely
+    console.log(err)
+}
 console.log(bob.amount);
 
 var bobP = new option2.policy().deny('removeAmount').from(bob).to('alice').install();
@@ -56,5 +69,11 @@ var bobP = new option2.policy().deny('removeAmount').from(bob).to('alice').insta
 console.log(bobP.firstname);
 
 console.log(bobP.amount = 100);
-bobP.removeAmount(10);
+try {
+	bobP.removeAmount(10);
+} catch (err) {
+    // handle the error safely
+    console.log(err)
+}
+
 console.log(bobP.amount);
