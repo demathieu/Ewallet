@@ -1,17 +1,6 @@
 "use strict";
 
 
-
-//new Policy()
-//.deny(‘spendCoupon’)
-//.from(‘bob’)
-//.to(‘alice’) .install()
-
-//var haha = require('./haha.js');
-//console.log(haha.test());
-
-
-
 var alice = {
 			firstname:'Jan',
 			lastName:'Smith',
@@ -64,7 +53,7 @@ try {
 }
 console.log(bob.amount);
 
-var bobP = new option2.policy().deny('removeAmount').from(bob).to('alice').install();
+var bobP = new option2.policy().allow('removeAmount').from(bob).to('alice').install();
 
 console.log(bobP.firstname);
 

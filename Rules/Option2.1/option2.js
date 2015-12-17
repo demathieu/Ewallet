@@ -44,12 +44,13 @@ function policy(){
  	//var  nameFunction;
  	this.allow = function (input){
  		this.nameFunction = input;
+ 		this.allowedOrDeny = true;
  		return this;
  	}
  	
  	this.deny = function(input){
  			this.nameFunction = input;
- 			this.denyOrAllow = 'deny';
+ 			this.allowedOrDeny = false;
  			return this;
  	}
 
@@ -64,7 +65,12 @@ function policy(){
  	}
 
  	this.install = function(){
- 		return new Proxy(this.fromValue,crHandlerBlack(this.nameFunction));
+ 		if (this.allowedOrDeny){
+ 			return new Proxy(this.fromValue,crHandlerWhite(this.nameFunction));
+ 		}
+ 		else{
+ 			return new Proxy(this.fromValue,crHandlerBlack(this.nameFunction));
+ 		}
  	}
 }
 
@@ -85,7 +91,13 @@ function policy(){
 //var p = new Policy();
 var bob = require ('./bob.js');
 //var alice = require('./alice.js');
-var p = new policy().deny('spendCoupon').from(bob).to('alice').install();
+var p = new policy().allow('spendCoupon').from(bob).to('alice').install();
+try{
+	p.spendCoupon(5);
+}
+catch (err){
+	console.log(err);
+}
 
 //var bobRuleApplied = bob.allow('execute','spendCoupon','Alice'); 
 //alice.friendList.push(p);
