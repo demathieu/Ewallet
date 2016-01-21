@@ -1,11 +1,4 @@
-"use strict";
-
-//new Policy()
-//.deny(‘spendCoupon’)
-//.from(‘bob’)
-//.to(‘alice’) .install()
-
-
+console.log({x: {y:2}});
 
 var bob = {
 	firstname:'Jantje',
@@ -25,6 +18,7 @@ var bob = {
 
 	
 
-}
+};
 
-module.exports = bob;
+
+console.log(bob);
