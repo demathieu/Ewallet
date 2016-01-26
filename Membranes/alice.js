@@ -28,15 +28,7 @@ var alice = {
 module.exports = alice;
 
 /////////////////////////////// main
-// var bob = require('./bob.js');
-// var option2 = require('./option2.js');
-// var membranes = require('./matMembranes.js');
 
-//     var wetTarget = bob;
-//     var membrane = membranes.makeMembrane(wetTarget);
-//    // console.log(membrane);
-//     var dryProxy = membrane.target;
-//     console.log(dryProxy.firstname);
 
 // console.log(alice.firstname);
 

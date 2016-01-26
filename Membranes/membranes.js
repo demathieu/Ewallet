@@ -26,8 +26,6 @@
  */
 
 // requires Direct Proxies
- //load('./reflect.js') //before using
- //var harmony =require('harmony-reflect');
 
  var Reflect = require('./reflect.js');
 
@@ -437,9 +435,6 @@
     
     wetToDryRef.val = dryToWetMaker(wetToDryCache, dryToWetCache,
                                     wetToDryRef, dryToWetRef);
-// console.log(wetToDryRef.val);
-// console.log(initWetTarget);
-// console.log(wetToDryRef.val(initWetTarget));
     return {
       target: wetToDryRef.val(initWetTarget),
       revoke: function() {
@@ -474,7 +469,7 @@
     //print('ok');
   }
 
-  // testMembrane();
+   //testMembrane();
   
   exports.makeMembrane = makeMembrane;
   
