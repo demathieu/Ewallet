@@ -26,13 +26,8 @@ var bankHandler = {
 		 this.person.removeAmount(1);
 	}
 }
-// dryBob.amount = 1;
-// bankHandler.person = dryBob;
-// bankHandler.removeOneFromAccount();
-// console.log(bankHandler.person.amount)
-// console.log(dryBob.amount)
 
-describe('??', function() {
+describe('We give a bob object to the bank, or bankHandler. We prove that we can succesfully revoke bob after he is given away.', function() {
   describe('Before revoke', function () {
     it('test if dry object from membrane, returns the correct firstname', function () {
       assert.equal("Jantje",dryBob.firstname);

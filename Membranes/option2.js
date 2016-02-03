@@ -12,6 +12,9 @@ function crHandlerWhite(whiteList){
 			else{
 				return target[name];
 			}	
+		},
+		set: function(target,name,val){
+			target[name]=val;
 		}
 	}
 
@@ -20,29 +23,24 @@ function crHandlerWhite(whiteList){
 function crHandlerBlack(blackList){
 	return handler = {
 		get: function (target,name){
-			// console.log("check hier wat er gebeurt")
-			// console.log(blackList)
-			// console.log(name)
-			// console.log(blackList.indexOf(name));
 			if (blackList.indexOf(name) == -1){ //if function name is not in the list
 				return target[name];
 			}
 			else{
-				//return target[name];
 				var err = new Error('No accessB');
     			throw err;
 			}	
 		},
 
 		set: function(target,name,val){
-			//console.log('check hier');
-			//console.log(target);
 			target[name]=val;
-			//console.log(name);
 		}
 	}
 
 }
+
+
+
 
 function load (filePath,whiteList){
 	var importedObject = require (filePath);
@@ -57,7 +55,6 @@ function requireClean (filePath){
 }
 
 function policy(){
- 	//var  nameFunction;
  	this.allow = function (input){
  		this.nameFunction = input;
  		this.allowedOrDeny = true;
@@ -80,6 +77,11 @@ function policy(){
  		return this;
  	}
 
+ 	this.condition = function (input){
+ 		this.condition = input;
+ 		return this;
+ 	}
+
  	this.install = function(){
  		if (this.allowedOrDeny){
  			return new Proxy(this.fromValue,crHandlerWhite(this.nameFunction));
@@ -90,14 +92,72 @@ function policy(){
  	}
 }
 
-//var Policy =  {
-//	varDeny : 't',
-//	deny : function(input){
-//		this.varDeny = input;
-//	}
-//}
 
-///////////////////////////////////////////////////////////////////// ALL Above is Backhand
+
+function crHandlerState(state,condition,blackList){
+return handler = {
+	    innerState: state,
+		get: function (target,name){
+			if (blackList.indexOf(name) == -1){
+				if (condition(this.innerState)){
+					this.innerState = this.innerState + 1;
+					return target[name];
+				}
+				else {
+				var err = new Error('No access state');
+     			throw err;
+				}
+			}
+			else{
+				return target[name];
+			}
+		},
+		set: function(target,name,val){
+ 			target[name]=val;
+ 		}
+
+	}
+}
+
+function policyWithState(state){
+
+	this.allow = function (input){
+ 		this.nameFunction = input;
+ 		this.allowedOrDeny = true;
+ 		return this;
+ 	}
+ 	
+ 	this.deny = function(input){
+ 		this.nameFunction = input;
+ 		this.allowedOrDeny = false;
+ 		return this;
+ 	}
+
+ 	this.from = function(input){
+ 		this.fromValue = input;
+ 		return this;
+ 	}
+
+ 	this.to = function (input){
+ 		this.toValue = input;
+ 		return this;
+ 	}
+
+ 	this.condition = function (input){
+ 		this.condition = input;
+ 		return this;
+ 	}
+
+ 	this.install = function(){
+ 		return new Proxy(this.fromValue,crHandlerState(state,this.condition,this.nameFunction));
+ 	}
+
+
+
+}
+
+
+/////////////////////////////////////////////////////////////////////
 
 //new Policy()
 //.deny(‘spendCoupon’)
@@ -136,6 +196,7 @@ function policy(){
  // var revoke = dryProxy.revoke();
  // console.log(revoke.firstname);
 module.exports.policy = policy;
+module.exports.policyWithState = policyWithState;
 module.exports.requireClean = requireClean;
 //module.exports = test;
 

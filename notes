@@ -1,0 +1,11 @@
+option2.policy().allow('executable').from(check).condition().install();
+
+
+option2.policyWithState(accessed).allow('use').from(check).condition(((input) => {return input < 2}))
+
+Do we remove the 'to' ?
+
+
+Proxies can break a targetted object.
+
+

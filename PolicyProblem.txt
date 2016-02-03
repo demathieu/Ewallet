@@ -1,0 +1,55 @@
+I can make an easy access controll policy allowing functions:
+newPolicy()
+.allow('create')
+.from(popup)
+.install()
+
+But how will I express the difference between allowing a function and allowing a certain parameter or add conditions to parameters.
+example: I want to allow the create function but only if it takes a whitelisted URL and a random token  
+
+newPolicy()
+.allow('create(url,token)') .condition(url == whiteList)
+.from(popup)
+.install()
+
+
+
+Allow the usage of the insert function of the database if the input passes the validation function
+newPolicy()
+.allow('insert')
+.from(database)
+.condition(input passes validation)
+.install()
+
+ 
+
+
+
+
+//////////////////// drawings
+
+newPolicy
+.allow()
+.from
+.condition
+.install()
+
+The url of a popup needs to come out of a whitelist
+
+newPolicy
+.allow('create')
+.from(popup)
+.condition(create(url) where url == whiteList)
+.install()
+
+
+newPolicy
+.allow('create')
+.from()
+.condition
+.install()
+
+newPolicy
+.allow(create(url)).condition(url == whiteList)
+.from(popup)
+.install 
