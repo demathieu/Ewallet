@@ -4,7 +4,7 @@ var alice = {
 			firstname:'Jan',
 			lastName:'Smith',
 			listOfCoupons:[],
-			friendList:[], 
+			friendList:[],
 			stealCoupon : function(index){
 				return this.friendList[index].listOfCoupons[index];
 			}

@@ -1,0 +1,9 @@
+new policyBuilder.policy(c.generateConditioner("Access BlackList")).deny('removeAmount').from(bob).create();
+
+
+Example of Information flow policy:
+
+Alice can only pass a check to Bob, if it gets through a bank
+
+How do I check if an object passes through another one? 
+
