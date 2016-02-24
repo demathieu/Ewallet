@@ -1,6 +1,7 @@
 var policyBuilder = require('./policyBuilder.js');
 var bob = policyBuilder.requireClean('./bob.js');
-var c = require('./conditioner.js');
+var c = require('./catalogueCondition.js');
+var cp = require('./cataloguePolicy.js');
 
 var check = {
 	amount : 500,
@@ -9,31 +10,19 @@ var check = {
 	}
 }
 
-var state = {
-	 innerstate: 0,
-	 condition: function(name,whiteList){
-	 	if(whiteList.indexOf(name) == -1){
-	 		if (this.innerstate < 1){
-	 			this.innerstate = this.innerstate + 1;
-	 		return true;
-	 		}else{
-	 			return false;
-	 		}
-	 	}else{
-	 		return true;
-	 	}
 
-	 }
-}
+//var check2 = new policyBuilder.policy(c.accessCounter).allow('use').install(check);
 
-var check2 = new policyBuilder.policy(state).allow('use').install(check);
 
-console.log(bob.amount);
-check2.use(bob);
-console.log(bob.amount);
-console.log("hier komt de error");
-check2.use(bob);
-console.log(bob.amount);
+var bobSafe = cp.accessControllPolicy().deny(['removeAmount','lastName']).install(bob)
+
+//var bobSafe = new policyBuilder.policy(c.blackListAccesControl).deny('removeAmount').install(bob);
+
+bob.removeAmount(10)
+
+//bobSafe.removeAmount(10);
+console.log(bobSafe.lastName);
+console.log(bobSafe.amount);
 
 // console.log(check2);
 // console.log(state.condition());
