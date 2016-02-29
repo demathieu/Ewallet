@@ -12,11 +12,12 @@ function findAndRemoveFromList(elem,list){
 //new option2.policyWithState(0).allow('use').from(check).condition(((input) => {return input < 1})).install();
 
 function handler(state,whiteList) {
-	return handler ={
-		get : function(target,name){
+	return {
+		get : function(target,name,recv){
 			console.log("get: " + name);
 			if (state.condition(name,whiteList)){
 				//console.log("get: " + name);
+				console.log(recv == target);
                return target[name];
 			}
 			else {
