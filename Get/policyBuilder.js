@@ -1,15 +1,7 @@
 var harmony = require('harmony-reflect');
 var membranes = require('./requirements/membranes.js');
-
-
-function findAndRemoveFromList(elem,list){
-	var i = list.indexOf(elem);
-	if(i != -1) {
-		list.splice(i, 1);
-	}
-}
-
-//new option2.policyWithState(0).allow('use').from(check).condition(((input) => {return input < 1})).install();
+ var Reflect = require('./requirements/reflect.js');
+var wm = new WeakMap();
 
 function requireClean (filePath){
 	var wetTarget = require (filePath);
@@ -17,16 +9,27 @@ function requireClean (filePath){
     return bob;
 }
 
+
+function traffic(target){
+	if (wm.has(target)){
+		return true;
+	}else{
+		wm.set(target,'inside');
+		return false;
+	}
+}
+
 function handler(state,whiteList) {
-	return handler ={
-		
+	return{
 		get : function(target,name,recv){
 			console.log("get: " + name);
-			if (state.condition(name,whiteList)){
-               return target[name];
+			var insideOutside = traffic(target);
+			if (insideOutside || state.condition(name,whiteList)){
+			   traffic(target);
+               return Reflect.get(target, name, recv);
 			}
 			else {
-				var err = new Error('No access allowed from Proxy');
+				var err = new Error(name +' is not allowed by the proxy' );
 				throw err;
 			}
 		},
