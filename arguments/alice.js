@@ -3,10 +3,6 @@
 // Get name + second functie test to see if he logs both like expected through proxies
 // confiment problem (bob, alice , carle)
 
-var amount;
- {removeAmount:			removeAmount : function(a){
-				amount = amount - a;
-			}}
 
 var alice = {
 			firstname:'Jan',

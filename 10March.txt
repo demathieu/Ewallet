@@ -1,0 +1,8 @@
+Read about CSP 
+http://www.html5rocks.com/en/tutorials/security/content-security-policy/
+
+I can express policies on arguments now, I still need to check my syntax
+
+Inside/outside problem
+
+Next presentation 
