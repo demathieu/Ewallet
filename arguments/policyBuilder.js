@@ -19,15 +19,15 @@ function traffic(target){
 	}
 }
 
-var test {
-	removeAmount : function (){
+// var test {
+// 	removeAmount : function (){
 		
-	}
-}
+// 	}
+// }
 
-o.f(x,y,z);
-o2.f = o.f;
-o2.f(x,y,z)
+// o.f(x,y,z);
+// o2.f = o.f;
+// o2.f(x,y,z)
 
 function handler(state,whiteList,obj) {
 	return{
@@ -35,29 +35,30 @@ function handler(state,whiteList,obj) {
 			var method = Reflect.get(target, name, recv);
 			if (typeof method === "function")
 			  return function () {
-
+			  	console.log(arguments)
 				return Reflect.apply(method, this, arguments);
 			  }
+			  console.log(method);
 			return method;
-			console.log("get: " + name);
-			var insideOutside = traffic(target);  // Check if method is coming from inside or outside based on the map, also keep it up to date
-			if (insideOutside || state.condition(name,whiteList)){
-			   traffic(target); // clean the map again
-               var v =  Reflect.get(target, name, recv);
-               return v 
+// 			console.log("get: " + name);
+// 			var insideOutside = traffic(target);  // Check if method is coming from inside or outside based on the map, also keep it up to date
+// 			if (insideOutside || state.condition(name,whiteList)){
+// 			   traffic(target); // clean the map again
+//                var v =  Reflect.get(target, name, recv);
+//                return v 
 
-// //var v = target[name];
-               // console.log(target[name]);
-               // console.log('performed')
-               // return v;
-               // console.log('never');
-               //return (typeof target) === "function" ? target.bind(obj) : target;
+// // //var v = target[name];
+//                // console.log(target[name]);
+//                // console.log('performed')
+//                // return v;
+//                // console.log('never');
+//                //return (typeof target) === "function" ? target.bind(obj) : target;
 
-			}
-			else {
-				var err = new Error(name +' is not allowed by the proxy' );
-				throw err;
-			}
+// 			}
+// 			else {
+// 				var err = new Error(name +' is not allowed by the proxy' );
+// 				throw err;
+// 			}
 		},
 		set: function(target,name,val){
 			console.log("set: "+name);

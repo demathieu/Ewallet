@@ -1,8 +1,27 @@
-Read about CSP 
-http://www.html5rocks.com/en/tutorials/security/content-security-policy/
 
-I can express policies on arguments now, I still need to check my syntax
 
-Inside/outside problem
+friday 15 uur meeting elisa
 
-Next presentation 
+
+DSL 
+	imperative
+	declartive
+
+One application - use as a case us
+
+
+Javascript -> secure it -> literatuur, imperative, declartive
+
+2 examples: access control, Create application( Resource control policy) 
+
+
+
+resoucrce controll
+
+-> access controll
+-> to who do i give ref (test it with membranes)
+-> creation 
+
+
+
+deploying <-> enforcing it 
