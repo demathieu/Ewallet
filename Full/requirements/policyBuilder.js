@@ -1,7 +1,7 @@
 var harmony = require('harmony-reflect');
 var membranes = require('./membranes.js');
 var Reflect = require('./reflect.js');
-var wm = new WeakMap();
+//var wm = new WeakMap();
 
 function requireClean (filePath){
 	var wetTarget = require (filePath);
@@ -18,7 +18,7 @@ function handler(state,whiteList,obj) {
 			if (typeof method === "function")
 			  return function () {
 				if (state.condition(name,whiteList,arguments)){			 
-               		return Reflect.apply(method, this, arguments);
+               		return Reflect.apply(method, target, arguments);
 				}
 				else {
 					var err = new Error(name +' is not allowed by the proxy' );
@@ -40,30 +40,26 @@ function handler(state,whiteList,obj) {
 			Reflect.set(target,name,val);
 		},
 		construct: function(target, argumentsList) {
-		// console.log('tracked');
-		// console.log(argumentsList);
-		// console.log(target);
+
 		if (state.condition(argumentsList)){
 			return Reflect.construct(target,argumentsList)
 		}else{
 			var err = new Error( 'is not allowed by the proxy' );
 			throw err;
 		}
-		
+	}
 
-
-  }
 	}
 
 }
 
 function policy(state){
- 	this.allow = function(input){
- 		this.nameFunction = input;
+ 	this.allow = function(allowedListFunctions){
+ 		this.nameFunction = allowedListFunctions;
  		return this;
  	}
- 	this.deny = function(input){
- 		this.nameFunction = input;
+ 	this.deny = function(denyListFunctions){
+ 		this.nameFunction = denyListFunctions;
  		return this;
  	}
 

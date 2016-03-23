@@ -15,10 +15,11 @@ function handler(state,whiteList,obj) {
 		get : function(target,name,recv){
 			console.log("get: " + name);
 			var method = Reflect.get(target, name, recv);
+			//return method;
 			if (typeof method === "function")
 			  return function () {
 				if (state.condition(name,whiteList,arguments)){			 
-               		return Reflect.apply(method, this, arguments);
+               		return Reflect.apply(method, target, arguments);
 				}
 				else {
 					var err = new Error(name +' is not allowed by the proxy' );
@@ -38,21 +39,7 @@ function handler(state,whiteList,obj) {
 			console.log("set: "+name);
 			//target[name] = val;
 			Reflect.set(target,name,val);
-		},
-		construct: function(target, argumentsList) {
-		// console.log('tracked');
-		// console.log(argumentsList);
-		// console.log(target);
-		if (state.condition(argumentsList)){
-			return Reflect.construct(target,argumentsList)
-		}else{
-			var err = new Error( 'is not allowed by the proxy' );
-			throw err;
 		}
-		
-
-
-  }
 	}
 
 }
