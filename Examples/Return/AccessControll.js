@@ -8,8 +8,8 @@ var Reflect = require('./requirements/reflect.js');
 //------------------------------------------------------------------------------- 
 var aliceSafe = new policyBuilder.policy(c.blackListAccesControl).deny('lastname').install(alice);
 
-console.log(aliceSafe.firstname);
-console.log(aliceSafe.lastname);  // this is blocked by the proxy as it should
+//console.log(aliceSafe.firstname);
+//console.log(aliceSafe.lastname);  // this is blocked by the proxy as it should
 
 
 // example two:: Allow only access to the lastname of alice  WORKING
@@ -64,7 +64,7 @@ var state = {
 }
 var aliceSafe = new policyBuilder.policy(state).allow('removeAmount').install(alice);
 // console.log(aliceSafe.amount)
-// aliceSafe.removeAmount(10)
-// console.log(aliceSafe.amount)
+ aliceSafe.removeAmount(10)
+ console.log(aliceSafe.amount)
 
 // console.log(aliceSafe.removeAmount(-10));
