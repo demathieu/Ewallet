@@ -18,8 +18,6 @@ var alice = {
 			},
 
 			removeAmount : function(amount){
-				console.log('loc: removeAmount');
-				console.log(this);
 				this.amount = this.amount - amount;
 			}
 };

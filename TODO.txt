@@ -1,0 +1,29 @@
+Mondag
+----------------
+
+Policy file untill 10
+Implement Set policy
+
+check if I can use my impl on client side
+Try to put policy on DOM objects
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+On planning
+
+Write test file for FULL folder
+Policy file untill 24
+Read Paper 1 and 2
+Make summary of different policies

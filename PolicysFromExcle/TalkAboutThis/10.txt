@@ -1,0 +1,5 @@
+
+
+Our policies only work if we install them before we start using the object.
+In this example we check if links that are already in the a document are allowed.
+What do we expect that should happen if this is not the case? 

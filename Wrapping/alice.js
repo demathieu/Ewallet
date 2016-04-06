@@ -1,4 +1,3 @@
-"use strict";
 
 var alice = {
 			firstname:'Jan',
@@ -7,7 +6,7 @@ var alice = {
 			friendList:[],
 			stealCoupon : function(index){
 				return this.friendList[index].listOfCoupons[index];
-			}
+			},
 
 			spendCoupon : function(amount){
 				for (i = 0; i == amount; i++){

@@ -5,7 +5,6 @@ var bob = {
 	lastName:'Smith',
 	listOfCoupons:[{id : 1}],
 	friendList:[], 
-	stealCoupon : function(){}};
 	spendCoupon : function(amount){
 		for (i = 0; i == amount; i++){
 			listOfCoupons.shift();

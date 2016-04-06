@@ -1,7 +1,6 @@
 var harmony = require('harmony-reflect');
 var membranes = require('./membranes.js');
 var Reflect = require('./reflect.js');
-var wm = new WeakMap();
 
 function requireClean (filePath){
 	var wetTarget = require (filePath);

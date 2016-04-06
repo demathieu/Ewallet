@@ -1,0 +1,12 @@
+var state = {
+	 condition: function(name,appliedFunctionList,arguments,allowedLinks){
+	 	if(name in appliedFunctionList && arguments[0] not in allowedLinks){
+	 		return false;
+	 	}
+	 	return true;
+
+	
+	}
+}
+
+var locationSafe = new policyBuilder.policy(state).deny('assign').install(frame1.location);

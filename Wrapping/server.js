@@ -1,5 +1,5 @@
 var alice = require('./alice.js')
-var bob = require('./bob.js')
+//var bob = require('./bob.js')
 var harmony =require('harmony-reflect');
 
 var handler = {
@@ -14,13 +14,28 @@ var handler = {
 	}
 }
 
-var proxyClient1 = new Proxy(alice,handler);
+var proxyClient1 = new Proxy({},handler);
 
+var handler = {
+	get: function (target,name){
+		console.log('Get request');
+		if (name == 'stealCoupon'){
+			console.log('No access');
+		}
+		else{
+			return target[name];
+		}	
+	}
+}
 
-console.log(alice.firstname);
-alice.friendList.push(bob);
+var p = new Proxy({},handler);
 
-console.log(proxyClient1.stealCoupon(0));
+console.log("test");
+
+// console.log(alice.firstname);
+// alice.friendList.push(bob);
+
+// console.log(proxyClient1.stealCoupon(0));
 
 
 

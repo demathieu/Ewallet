@@ -5,6 +5,7 @@ var alice = {
 			firstname:'Jan',
 			lastname:'Smith',
 			listOfCoupons:[],
+			password: 'haha',
 			amount: 0,
 			friendList:[], 
 			stealCoupon : function(index){
@@ -16,10 +17,22 @@ var alice = {
 					listOfCoupons.shift();
 				}
 			},
+			login: function(password){
+				if (this.password === password){
+					return true;
+				}else{
+					return false;
+				}
+			},
+			loginBad: function(password){
+				if (this.password === password){
+					return this.password;
+				}else{
+					return this.password;
+				}
+			},
 
 			removeAmount : function(amount){
-				console.log('loc: removeAmount');
-				console.log(this);
 				this.amount = this.amount - amount;
 			}
 };

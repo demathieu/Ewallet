@@ -35,9 +35,14 @@ function handler(state,whiteList,obj) {
 			}
 		},
 		set: function(target,name,val){
+			var err = new Error(name +' is not allowed by the proxy' );
 			console.log("set: "+name);
-			//target[name] = val;
-			Reflect.set(target,name,val);
+			if (state.condition(name,whiteList,val)){
+				Reflect.set(target,name,val);
+			}else{
+				throw err;
+			}
+			
 		},
 		construct: function(target, argumentsList) {
 		console.log('catched construct');

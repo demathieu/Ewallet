@@ -1,0 +1,37 @@
+Can't I just deny access to the functions that can remove the location bar and status bar.
+Otherwise just deny the value of this property to be set to "no"
+
+I have rewritten this policy to do this.
+
+You can't set the value of amount to something negative.
+
+var policyBuilder = require('./requirements/policyBuilder.js');
+var alice = require('./requirements/alice.js')
+var Reflect = require('./requirements/reflect.js');
+var person = require('./requirements/person.js');
+var helper = require('./requirements/helper.js');
+
+var state = {
+	sensitiveResourcesList :['lastname'],
+	 condition: function(name,appliedFunctionList,arguments){
+	 	if( helper.member(name,appliedFunctionList)&& arguments <= 0 ){
+	 		console.log(arguments);
+	 		return false;
+	 	}
+	 	return true;
+
+	
+	}
+}
+
+
+
+var aliceSafe = new policyBuilder.policy(state).deny('amount').install(alice);
+
+console.log(aliceSafe.amount = -10)
+
+
+-----------------------------------------------------------------------------
+Can putting a policy on a Set break something of the Get think about this!!!!
+I need to add a hook to differentiate between read and write access (get and set triggers)
+-----------------------------------------------------------------------------

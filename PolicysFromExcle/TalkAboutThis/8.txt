@@ -1,0 +1,18 @@
+var state = {
+	 condition: function(name,appliedFunctionList,arguments,allowedLinks,sensitiveResourceList){
+	 	if(name in appliedFunctionList && arguments[0] not in allowedLinks){
+	 		console.log(intersectLists(this.previousAccessList,this.sensitiveResourcesList))
+	 		return false;
+	 	}
+	 	this.previousAccessList.push('lastname');
+	 	return true;
+
+	
+	}
+}
+
+locationSafe = new policyBuilder.policy(state).deny('send').install(XMLHttpRequest);
+
+Hooks I would need to add:
+
+WhiteList(["test.com","haha.com"])

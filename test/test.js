@@ -1,24 +1,20 @@
-console.log({x: {y:2}});
+var harmony = require('harmony-reflect');
 
-var bob = {
-	firstname:'Jantje',
-	lastName:'Smith',
-	listOfCoupons:[{id : 1}],
-	amount: 0,
-	friendList:[], 
-	stealCoupon : function(){},
-	spendCoupon : function(amount){
-		for (var i = 0; i == amount; i++){
-			listOfCoupons.shift();
-		}
-	},
-	removeAmount : function(amount){
-		this.amount = this.amount - amount;
+
+var handler = {
+	get: function(target,name,recv){
+		console.log(name);
+		console.log(target);
 	}
+}
 
-	
+var test = "test1";
 
-};
+function test(){
+	return "test2";
+}
+
+//var varProxy = new Proxy(test,handler)
 
 
-console.log(bob);
+console.log(test());

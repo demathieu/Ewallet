@@ -9,9 +9,9 @@ var aliceSafe = new policyBuilder.returnPolicy(c.blackListAccesControl).deny('la
 
 
 
-//console.log(aliceSafe.firstname);
-//console.log(aliceSafe.lastname);
-//console.log(aliceSafe.getLastname());
+console.log(aliceSafe.firstname);
+console.log(aliceSafe.lastname);
+console.log(aliceSafe.getLastname());
 console.log(aliceSafe.getObject());
 
 // var bob = {
