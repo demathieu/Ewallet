@@ -1,0 +1,1 @@
+windowSafe = new policyBuilder.policy(state).deny('open').install(window).Whitelist(list)

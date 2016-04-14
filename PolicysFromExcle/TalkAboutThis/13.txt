@@ -1,5 +1,13 @@
-AliceSafe = new policyBuilder.policy(whitelist).allow('amount').install(alice);  // I need to make a hook that allows to differentiate between Read and Write access or Get and Set
+
+
+AliceSafe = new policyBuilder.policy(whitelist).allow('amount').read().install(alice);  
+
+// I need to make a hook that allows to differentiate between Read and Write access or Get and Set
 
 AliceSafe = new policyBuilder.policy(whitelist).allow('deposit').install(alice);
 
 
+
+Property	Read & Write
+Function	Execute
+Object		Read, Write, Execute

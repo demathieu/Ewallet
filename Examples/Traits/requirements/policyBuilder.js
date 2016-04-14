@@ -56,12 +56,10 @@ function handler(state,whiteList,obj) {
 function policy(state){
  	this.allow = function(allowedListFunctions){
  		this.nameFunction = allowedListFunctions;
- 		this.deny = false;
  		return this;
  	}
  	this.deny = function(denyListFunctions){
  		this.nameFunction = denyListFunctions;
- 		this.deny= true;
  		return this;
  	}
 

@@ -1,0 +1,25 @@
+1) Disallow any code from being introduced after a certain point
+
+I don't really understand how this works, I need to ask
+
+2) No string arguments to setInterval, setTimeout
+
+var state = {
+   condition: function(name,functionList,arguments){
+   	if (name in functionList && typeof(arguments[0]) === 'function'){
+   		return false;
+   	}
+   return true;
+   }
+}
+
+var test = new policy(state).allow(['setInterval','setTimeout']).install(?);
+
+
+3) No inline scripts Previous
+
+Look up what inline scripts are!!
+
+4) Script tag whitelist
+
+

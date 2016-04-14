@@ -1,0 +1,14 @@
+Policy 10
+
+How to Combine policy, take as example policy 13.
+
+Property	Read & Write
+Function	Execute
+Object		Read, Write, Execute
+Is this complete???
+
+
+Allow X    == Whitelist X
+Deny Y == BlackList Y 
+
+

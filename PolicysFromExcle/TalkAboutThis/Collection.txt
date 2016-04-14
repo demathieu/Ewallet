@@ -1,0 +1,37 @@
+Different all Policies:
+
+var state = {
+	previousAccessList : [],
+	 condition: function(name,appliedFunctionList,arguments,allowedLinks,sensitiveResourceList){
+	 	if(name in appliedFunctionList && previousAccessList in sensitiveResourceList && arguments[0] not in allowedLinks){
+	 		return false;
+	 	}
+	 	this.previousAccessList.push('lastname');
+	 	return true;
+
+	
+	}
+}
+
+locationSafe = new policyBuilder.policy(state).deny('setNewLocation').install(location).sensitiveResourcesList(List).allowedLinks(List);
+
+
+var state = {
+	sensitiveResourcesList :['lastname'],
+	 condition: function(name,appliedFunctionList,arguments){
+	 	if( helper.member(name,appliedFunctionList)&& arguments <= 0 ){
+	 		return false;
+	 	}
+	 	return true;
+	}
+}
+
+
+
+var aliceSafe = new policyBuilder.policy(state).deny('amount').arguments(<=0).install(alice);
+
+var AliceSafe = new policyBuilder.policy(whitelist).allow('amount').read().install(alice);
+
+var AliceSafe = new policyBuilder.policy(whitelist).allow('deposit').install(alice);
+
+Do we want to add a regex to allow methodes/properties names based on that

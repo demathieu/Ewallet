@@ -2,7 +2,6 @@ var state = {
 	previousAccessList : [],
 	 condition: function(name,appliedFunctionList,arguments,allowedLinks,sensitiveResourceList){
 	 	if(name in appliedFunctionList && previousAccessList in sensitiveResourceList && arguments[0] not in allowedLinks){
-	 		console.log(intersectLists(this.previousAccessList,this.sensitiveResourcesList))
 	 		return false;
 	 	}
 	 	this.previousAccessList.push('lastname');
@@ -12,26 +11,8 @@ var state = {
 	}
 }
 
-locationSafe = new policyBuilder.policy(state).deny('setNewLocation').install(location);
-
-
-Hooks I would need to add:
-
-WhiteList(["test.com","haha.com"])
-sensitiveResourceList(["cookies","password"])
+locationSafe = new policyBuilder.policy(state).deny('setNewLocation').install(location).whiteList(list).sensitiveResourceList(List);
 
 
 
-test code:
-
-locationSafe.setNewLocation("vub.com");
-
-
-Assumtions I made:
-
-I assume you trigger the location changing by calling the setNewLocation function. Location has to be a object which is the case in the example. 
-
-Problems:
-
-My policies only Deny or Allow access there is no way to change behavior based on a policy
   

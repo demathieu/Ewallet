@@ -1,5 +1,4 @@
 
 
-Our policies only work if we install them before we start using the object.
-In this example we check if links that are already in the a document are allowed.
-What do we expect that should happen if this is not the case? 
+Is a simple policy that uses a whitelist. The problem is that in the example it is a function, there is no object to proxy.
+So i'm not sure how to implement this.

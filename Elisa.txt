@@ -1,0 +1,47 @@
+basic:
+
+-> StateFull (How to model this)
+-> Allow/Deny
+-> Install
+
+what kind of target?
+-> Property/Function
+	->Read/Write/Execute
+-> Arguments
+
+
+
+
+
+Additional hooks: Can be gathered as condition
+
+-> After/Before
+-> WhiteList
+-> sensitiveResourcesList
+-> Regex Check
+
+
+Things I wasn't able to do:
+
+1) Logging
+2) A policy where you check all the already existing links in a html file, if they are in a whitelist
+3)How to combine two policies? Example :
+AliceSafe = new policyBuilder.policy(whitelist).allow('amount').read().install(alice);  
+
+AliceSafe = new policyBuilder.policy(whitelist).allow('deposit').install(alice);
+
+
+Problems?
+
+How to model this with traits
+
+
+what happends when we have a function like this
+
+function a(){
+	b();
+	c();
+	deny(); // this function is not allowed
+}
+	b and c will still be triggered, meaning it can change the state of my program 
+

@@ -9,4 +9,4 @@ var state = {
 	}
 }
 
-var locationSafe = new policyBuilder.policy(state).deny('assign').install(frame1.location);
+var locationSafe = new policyBuilder.policy(state).deny('assign').install(frame1.location).allowedLinks(list);

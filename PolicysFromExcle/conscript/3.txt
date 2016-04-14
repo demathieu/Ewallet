@@ -1,0 +1,4 @@
+The policy is registered around the $ function, which is only available in the global namespace after the jQuery library has been loaded. However, to make sure that jQuery.js is not changing the environment in undesirable ways, we need to make sure that jQuery.js only declares new code and does not execute anything as part of being included. This can be achieved through either a static analysis [11, 12] or by observing library loading at runtime. It is our assumption that in the future a CONSCRIPT-like system will be integrated with a library loading mechanism that will ensure that the loaded library is not trying to do anything other than registering new code
+
+
+Discuss:: What will happen when we want policies to be trigger after for example JQuery is loaded but before something else is loaded

@@ -1,10 +1,8 @@
 var state = {
-	 condition: function(name,appliedFunctionList,arguments,allowedLinks,sensitiveResourceList){
+	 condition: function(name,appliedFunctionList,arguments,allowedLinks){
 	 	if(name in appliedFunctionList && arguments[0] not in allowedLinks){
-	 		console.log(intersectLists(this.previousAccessList,this.sensitiveResourcesList))
 	 		return false;
 	 	}
-	 	this.previousAccessList.push('lastname');
 	 	return true;
 
 	

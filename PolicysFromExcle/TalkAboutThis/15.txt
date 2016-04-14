@@ -1,0 +1,7 @@
+Var xSafe = new policyBuilder.policy(blackList).deny('secret').install(x);
+
+
+
+
+Allow X    == Whitelist X
+Deny Y == BlackList Y 

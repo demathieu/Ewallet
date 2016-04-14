@@ -1,0 +1,1 @@
+locationSafe = new policyBuilder.policy(state).deny('createElement').argumentsBlackList('iframe').install(document);
