@@ -18,11 +18,20 @@ windowSafe = new policyBuilder.policy(state)
 							  .deny({method: 'open'})
 							  .install(window);
 
+
+
+// Mathieu: why filter has all the set arguments?? 
+// Mathieu: Deny is working on a Get statement not on a set statement here. 
+
 //4: Policy to disallow iframe creation
 locationSafe = new policyBuilder.policy({})
 								.deny({method:'createElement', arguments: ['iframe']}).
 								.install(document);
-								
+
+// Mathieu :: Making assumtion that (typeof method === "function") == {method:, arguments:}.  Not sure if this is true !!! 
+
+
+							
 //5: Policy preventing leakage of information through loading of new images
 
 
