@@ -1,0 +1,103 @@
+
+//3: A popup security policy example: 
+allow at most 2 popup windows that its URL must be in the whitelist and the new popup window must has location ba
+
+var state = {
+	 popuptimes : 0,
+	 // the parameters correspond to the ones in handler.set 
+	 filter: function(target,name,value,receiver){  
+	 	if(popuptimes > 2){
+	 		return false;
+	 	} else {
+			popuptimes++;
+			return true;
+		}
+	}
+}
+windowSafe = new policyBuilder.policy(state)
+							  .deny({method: 'open'})
+							  .install(window);
+
+//4: Policy to disallow iframe creation
+locationSafe = new policyBuilder.policy({})
+								.deny({method:'createElement', arguments: ['iframe']}).
+								.install(document);
+								
+//5: Policy preventing leakage of information through loading of new images
+
+
+								
+leakageSafe = new policyBuilder.policy({})
+								.deny({propertyUpdate:'src'}).
+								.whiteList(collectionAllowedURLs).
+								.install(document.image);
+								
+what whiteList(collectionAllowedURLs) method does is that it overrides the state property that a policy has for the following:
+
+ whiteList: function(collectionAllowedURLs) {
+   policy.state = {
+	// the parameters correspond to the ones in handler.set 
+	 filter: function(target,name,value,receiver){
+	 		if (value in collectionAllowedURLs)
+				Reflect.set(....);
+	}
+}
+ 
+
+//6: writing to the document.location, window.location and the src property of the instances of Frame, IFrame, Image and Form classes should only be permitted if the sensitive data fields have not been previously read or the new location is in an URL whitelist allowed by the policy.
+var state = {
+	 cookiesRead : false;
+	 listenerCookiesRead: {
+		// the parameters correspond to the ones in handler.get
+		notify: function(target, name, value, receiver) {
+			cookiesRead = true;
+		}
+	 }
+	 filter: function(target,name,receiver){
+	 	if ( cookiesRead)
+		return false;
+	}
+}
+
+
+readSensitiveData = new	policyBuilder.policy(state)
+								.monitor({propertyRead:'cookies', listener: state.listenerCookiesRead}))
+								.install(window);
+
+leakageSafeOnDocumentLocation = new policyBuilder.policy(state)
+								.deny({propertyUpdate:'src'}).
+								.whiteList(URLcollection).
+								.install(document.location);
+
+leakageSafeOnWindowLocation = new policyBuilder.policy(state)
+								.deny({propertyUpdate:'src'}).
+								.whiteList(URLcollection).
+								.install(window.location);								
+																
+
+// a nicer version would be to install on multiple targets the same policie, eg:															
+leakageSafe = new policyBuilder.policy(state)
+								.deny({propertyUpdate:'src'}).
+								.whiteList(URLcollection).
+								.installOnMultipleTargets([document.location, window.location]);
+
+//7: Policy controlling the redirection of a webpage. 
+// Similar to 5 changing property and target
+
+
+redirectionSafe = new policyBuilder.policy({})
+								.deny({propertyUpdate:'location'}).
+								.whiteList(allowedURLs).
+								.installOnMultipleTargets([document, window]);
+
+//8: Policy preventing impersonation attacks using XMLHttpRequest object.													
+
+locationSafe = new policyBuilder.policy({})
+								.deny({method: 'send'})
+								.deny({method: 'open'}).
+								.whiteList(allowedURLs).
+								.install(XMLHttpRequest);
+								
+calling twice to deny means that now the policy can be denied by either a "set" call to 'send' or 'open'. 
+So this means that a policy keeps a list of objects of the type {method: ... arguments:}
+								

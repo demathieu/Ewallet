@@ -1,0 +1,34 @@
+<html>
+<head>
+    <script type="text/javascript" src="requirements/bundle.js"></script>
+
+</head>
+    <body>
+hello
+<script> 
+
+var state = {
+   popuptimes : 0,
+   // the parameters correspond to the ones in handler.set 
+   filter: function(){  
+    if(this.popuptimes > 2){
+      return false;
+    } else {
+      this.popuptimes++;
+      console.log(this.popuptimes);
+      return true;
+    }
+    //return true;
+  }
+}
+
+var test = new policy(state)
+                .deny({method: 'open'})
+                .install(window);
+//window.open("http://www.w3schools.com");
+console.log(test);
+test.open("http://www.w3schools.com");
+console.log("done");
+</script>	
+    </body>
+</html>
