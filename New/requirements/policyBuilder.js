@@ -16,9 +16,35 @@ var defaultStateMethodArg =  {
 	 }
 }
 
+var defaultWhiteList = {
+	filter: function(name,whiteList){
+		if(whiteList.indexOf(name) == -1){
+      		return false;
+      	}else{
+        	return true;
+      	}
+   }
+}
+
+var defaultBlackList = {
+   filter: function(name,blackList){
+    if(blackList.indexOf(name) == -1){
+      return true;
+      }else{
+        return false;
+      }
+   }
+}
+
 var defaultStateMethod = {
 	filter: function(){
 		return true;
+	}
+}
+
+var defaultTempSet = {
+	filter : function(){
+		return false;
 	}
 }
 
@@ -31,6 +57,7 @@ function cleanState(inputState,defaultState){
 }
 
 function policy(inputState){
+	 this.state = inputState; 
 	 this.deny = function(denyObject){
 	 	var err = new Error( 'is not allowed by the proxy' );
 	 		if (denyObject.hasOwnProperty('method')) {
@@ -53,7 +80,7 @@ function policy(inputState){
  									 if (this.state.filter()){
  										return method;
  									}else{
- 										console.log(name);
+ 										//console.log(name);
 					 					throw err;
  									}
  								}
@@ -63,72 +90,41 @@ function policy(inputState){
         				}
         			}
         		}else if(denyObject.hasOwnProperty('propertyUpdate')){
-
-        			console.log('TODO')
-
+        			var state = this.state;
+        			this.handler = {
+        				set:function(target,name,value,recv){
+        					console.log("set: " +name);
+        					if(denyObject['propertyUpdate'] === name){
+        						if (state.filter(target,name,value,recv)){
+        							Reflect.set(target,name,value,recv);
+        						}else{
+        							throw err;
+        						}
+        					}
+        					Reflect.set(target,name,value,recv);
+        				}
+        			}
         		}
 		return this;
+	 }
+
+	 this.whiteList = function(allowedList){
+	 	this.state = { 
+	 		filter : function(target,name,value,receiver){
+	 			if (allowedList.indexOf(value) != -1){
+	 				return true;
+	 			}else{
+	 				return false
+	 			}
+	 		}
+	 	}
+	 	return this;
 	 }
 
 	 this.install = function(target){
 	 	return new Proxy(target,this.handler);
 	 }
 }
-
-// function policy(state){
-// 	 this.deny = function(denyObject){
-// 	 		if (denyObject.hasOwnProperty('method')) {
-//         			this.handler = {
-//         				get:function(target,name,recv){
-//         					console.log("get: " + name);
-//  							var method = Reflect.get(target, name, recv);
-//  							if (name === denyObject['method']){
-//  								if(denyObject.hasOwnProperty('arguments')){
-//  									return function () {
-//  										if (isEmpty(state)){
-//  											if (defaultState.filter(arguments,denyObject['arguments'])){
-// 	 											return Reflect.apply(method, this, arguments);
-// 	 										}else{
-// 	 											var err = new Error( 'is not allowed by the proxy' );
-// 					 							throw err;
-// 	 										} 											
-//  										}else{
-//  											if (state.filter(arguments,denyObject['arguments'])){
-// 	 											return Reflect.apply(method, this, arguments);
-// 	 										}else{
-// 	 											var err = new Error( 'is not allowed by the proxy' );
-// 					 							throw err;
-// 	 										}
-//  										}
-
-// 	 								}
-//  								}else {
-//  									 if (state.filter()){
-//  										return method;
-//  									}else{
-//  										console.log(name);
-//  										var err = new Error( 'is not allowed by the proxy' );
-// 					 					throw err;
-//  									}
-//  								}
-//  							}else{
-//  								return method;
-//  							}
-//         				}
-//         			}
-//         		}else if(denyObject.hasOwnProperty('propertyUpdate')){
-
-//         			console.log('TODO')
-
-//         		}
-// 		return this;
-// 	 }
-
-// 	 this.install = function(target){
-// 	 	return new Proxy(target,this.handler);
-// 	 }
-// }
-
 
 module.exports.policy = policy;
 //window.policy = policy;

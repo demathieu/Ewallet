@@ -22,12 +22,17 @@ var state = {
   }
 }
 
-var test = new policy(state)
-                .deny({method: 'open'})
-                .install(window);
+console.log(document.images)
+
+var logger = logger(document.images);
+//logger.open("http://www.w3schools.com");
+//logger.src="test";
+// var test = new policy(state)
+//                 .deny({method: 'open'})
+//                 .install(window);
 //window.open("http://www.w3schools.com");
-console.log(test);
-test.open("http://www.w3schools.com");
+//console.log(test);
+//test.open("http://www.w3schools.com");
 console.log("done");
 </script>	
     </body>

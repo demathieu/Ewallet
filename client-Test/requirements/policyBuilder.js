@@ -43,6 +43,27 @@ function policy(state){
 	 }
 }
 
+var handler = {
+    get:function(target,name,recv){
+        console.log("get: " + name);
+        return Reflect.get(target,name,recv);
+    },
+    set: function(target, property, value, receiver){
+        console.log("set: " + property);
+        return Reflect.set(target, property, value, receiver);
+    }
+
+}
+
+function logger(target){
+    return new Proxy (target,handler);
+}
+
+
+
 
 //module.exports.policy = policy;
+//module.exports.logger = logger;
+
 window.policy = policy;
+window.logger=logger;

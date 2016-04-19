@@ -44,9 +44,30 @@ function policy(state){
 	 }
 }
 
+var handler = {
+    get:function(target,name,recv){
+        console.log("get: " + name);
+        return Reflect.get(target,name,recv);
+    },
+    set: function(target, property, value, receiver){
+        console.log("set: " + property);
+        return Reflect.set(target, property, value, receiver);
+    }
+
+}
+
+function logger(target){
+    return new Proxy (target,handler);
+}
+
+
+
 
 //module.exports.policy = policy;
+//module.exports.logger = logger;
+
 window.policy = policy;
+window.logger=logger;
 
 },{"./reflect.js":2,"harmony-reflect":3}],2:[function(require,module,exports){
 (function (global){
@@ -2957,14 +2978,7 @@ Validator.prototype = {
    * that don't use the patched Object.getOwnPropertyNames function.
    */
   getOwnPropertyNames: function() {
-    // Note: removed deprecation warning to avoid dependency on 'console'
-    // (and on node, should anyway use util.deprecate). Deprecation warnings
-    // can also be annoying when they are outside of the user's control, e.g.
-    // when an external library calls unpatched Object.getOwnPropertyNames.
-    // Since there is a clean fallback to `ownKeys`, the fact that the
-    // deprecated method is still called is mostly harmless anyway.
-    // See also issues #65 and #66.
-    // console.warn("getOwnPropertyNames trap is deprecated. Use ownKeys instead");
+    console.warn("getOwnPropertyNames trap is deprecated. Use ownKeys instead");
     return this.ownKeys();
   },
 
@@ -3751,7 +3765,7 @@ var __proto__setter = (function() {
 
   prim_defineProperty(Object.prototype, '__proto__', {
     set: function(newProto) {
-      return Object.setPrototypeOf(this, Object(newProto));
+      return Object.setPrototypeOf(this, newProto);
     }
   });
 
@@ -4091,7 +4105,10 @@ var Reflect = global.Reflect = {
       }      
     }
 
-    return new (Function.prototype.bind.apply(newTarget, [null].concat(args)));
+    var proto = newTarget.prototype;
+    var instance = (Object(proto) === proto) ? Object.create(proto) : {};
+    var result = Function.prototype.apply.call(target, instance, args);
+    return Object(result) === result ? result : instance;
   }
 };
 

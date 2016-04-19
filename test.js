@@ -21,14 +21,17 @@
 
 // test("test").deny();
 
-function test (input){
-	console.log(input)
-	if(input === '{}'){
-		return true
-	}else{
-		return false
-	}
-}
+// function test (input){
+// 	console.log(input)
+// 	if(input === '{}'){
+// 		return true
+// 	}else{
+// 		return false
+// 	}
+// }
 
-console.log(test({}));
-console.log(test());
+// console.log(test({}));
+// console.log(test());
+
+var list = ["10","5"]
+console.log(list.indexOf("5"));
