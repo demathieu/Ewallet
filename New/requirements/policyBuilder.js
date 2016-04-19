@@ -124,6 +124,15 @@ function policy(inputState){
 	 this.install = function(target){
 	 	return new Proxy(target,this.handler);
 	 }
+
+	 this.installOnMultipleTargets = function(listOfTargets){
+	 	var listOfProxy = [];
+	 	for(target in listOfTargets){
+	 		var temp = new Proxy(listOfTargets[target],this.handler);
+	 		listOfProxy.push(temp);
+	 	}
+	 	return listOfProxy;
+	 }
 }
 
 module.exports.policy = policy;

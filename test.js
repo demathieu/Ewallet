@@ -34,4 +34,7 @@
 // console.log(test());
 
 var list = ["10","5"]
-console.log(list.indexOf("5"));
+
+for (i in list){
+	console.log(list[i]);
+}
