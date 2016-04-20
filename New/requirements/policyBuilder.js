@@ -59,6 +59,7 @@ function cleanState(inputState,defaultState){
 function policy(inputState){
 	 this.state = inputState; 
 	 this.deny = function(denyObject){
+	 	var state = this.state;			 // moet state blijven anders kan whitelist het niet overschrijven
 	 	var err = new Error( 'is not allowed by the proxy' );
 	 		if (denyObject.hasOwnProperty('method')) {
         			this.handler = {
@@ -68,7 +69,7 @@ function policy(inputState){
  							if (name === denyObject['method']){
  								if(denyObject.hasOwnProperty('arguments')){
  									return function () {
- 										this.state = cleanState(inputState,defaultStateMethodArg);										
+ 										this.state = cleanState(state,defaultStateMethodArg);		 // moet state blijven anders kan whitelist het niet overschrijven								
  										if (this.state.filter(arguments,denyObject['arguments'])){
 	 										return Reflect.apply(method, this, arguments);
 	 									}else{
@@ -76,8 +77,8 @@ function policy(inputState){
 	 									}
 	 								}
  								}else {
- 									 this.state = cleanState(inputState,defaultStateMethod);
- 									 if (this.state.filter()){
+ 									 this.state = cleanState(state,defaultWhiteList);  // moet state blijven anders kan whitelist het niet overschrijven
+ 									 if (this.state.filter(target,name,recv)){
  										return method;
  									}else{
  										//console.log(name);
@@ -91,10 +92,12 @@ function policy(inputState){
         			}
         		}else if(denyObject.hasOwnProperty('propertyUpdate')){
         			var state = this.state;
+        			//console.log(state)
         			this.handler = {
         				set:function(target,name,value,recv){
         					console.log("set: " +name);
         					if(denyObject['propertyUpdate'] === name){
+        						state = cleanState(state,defaultWhiteList); // moet state blijven anders kan whitelist het niet overschrijven
         						if (state.filter(target,name,value,recv)){
         							Reflect.set(target,name,value,recv);
         						}else{

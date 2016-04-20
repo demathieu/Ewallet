@@ -6,12 +6,12 @@ var alice = require('./../requirements/alice.js');
 
 								
 leakageSafe = new policyBuilder.policy({})
-								.whiteList(['10'])
+								.whiteList([10])
 								.deny({propertyUpdate:'amount'})				
 								.install(alice);
 
 leakageSafe.amount;
 leakageSafe.amount = '10';
-leakageSafe.amount = '1';
+//leakageSafe.amount = '5';
 
 
