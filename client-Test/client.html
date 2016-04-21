@@ -1,7 +1,7 @@
 <html>
 <head>
     <script type="text/javascript" src="requirements/bundle.js"></script>
-
+    <script type="text/javascript" src="requirements/alice.js"></script>
 </head>
     <body>
 hello
@@ -22,17 +22,30 @@ var state = {
   }
 }
 
-console.log(document.images)
+//console.log(window)
 
-var logger = logger(document.images);
+//var logger = logger(document.images);
 //logger.open("http://www.w3schools.com");
 //logger.src="test";
-// var test = new policy(state)
-//                 .deny({method: 'open'})
-//                 .install(window);
+ var test = new policy(state)
+                 .deny({method: 'open'})
+                 .install(window);
 //window.open("http://www.w3schools.com");
 //console.log(test);
 //test.open("http://www.w3schools.com");
+var handler = {
+  get: function(target,name,recv){
+    return Reflect.get(target,name,recv);
+  }
+}
+
+ var proxy = new Proxy(window,handler);
+ proxy.alert("test");
+//window.alert("test");
+
+ // var proxy = new Proxy(document,handler);
+ // proxy.createElement("Iframe");
+
 console.log("done");
 </script>	
     </body>

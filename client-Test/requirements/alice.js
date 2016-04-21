@@ -22,5 +22,5 @@ var alice = {
 			}
 };
 
-module.exports = alice;
+//module.exports = alice;
 
