@@ -4,7 +4,7 @@ var alice = require('./../requirements/alice.js');
 var state = {
 	 popuptimes : 0,
 	 // the parameters correspond to the ones in handler.set 
-	 filter: function(target,name,recv){  
+	 filter: function(target,name,value,recv){  
 	 	if(this.popuptimes >= 2){
 	 		return false;
 	 	} else {

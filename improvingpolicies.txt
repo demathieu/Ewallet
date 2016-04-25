@@ -109,4 +109,28 @@ locationSafe = new policyBuilder.policy({})
 								
 calling twice to deny means that now the policy can be denied by either a "set" call to 'send' or 'open'. 
 So this means that a policy keeps a list of objects of the type {method: ... arguments:}
+
+
+
+
+//9: Policy preventing potential forgery attacks. This is what we want to allow, the other things should be denied
+//window.open("", "", "location=yes,status=yes");
 								
+locationSafe = new policyBuilder.policy({})
+								.allow({method: 'open' , arguments : ['','','location=yes,status=yes']})
+								.install(window)
+
+//11: Policy to disable methods that might cause resource abuse. (Deny access to window.alert and window.prompt)
+
+windowSafe = new policyBuilder.policy({})
+							  .deny({method: 'alert'})
+							  .deny({method: 'prompt'})
+							  .install(window)
+
+
+//12: The intended policy is to limit the content of a frame to URLs specified by a whitelist
+
+frameSafe = new policyBuilder.policy({})
+							 .deny({method: 'assign'})
+							 .whiteList(allowedURLs)
+							 .install(frame.location)

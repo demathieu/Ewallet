@@ -13,3 +13,10 @@ redirectionSafe = new policyBuilder.policy({})
 
 
 redirectionSafe[0].amout=10;
+
+locationSafe = new policyBuilder.policy({})
+								.whiteList([10,5])
+								.deny({method: 'removeAmount'})
+								.install(alice);
+
+locationSafe.removeAmount(10);

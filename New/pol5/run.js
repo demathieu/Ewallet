@@ -11,7 +11,7 @@ leakageSafe = new policyBuilder.policy({})
 								.install(alice);
 
 leakageSafe.amount;
-leakageSafe.amount = '10';
-//leakageSafe.amount = '5';
+//leakageSafe.amount = '10';
+leakageSafe.amount = 10;
 
 

@@ -67,7 +67,7 @@ describe('Complete Test suit', function() {
     });
 var state = {
 	 // the parameters correspond to the ones in handler.set 
-	 filter: function(arguments,condition){
+	 filter: function(target,name,arguments,recv,condition){
 	 	if (arguments[0] == condition[0]){
 	 		return false;
 	 	}else{
