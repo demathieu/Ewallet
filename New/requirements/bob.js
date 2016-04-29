@@ -15,7 +15,10 @@ var bob = {
 	},
 	removeAmount : function(amount){
 		this.amount = this.amount - amount;
-	}
+	},
+	removeAmount2 : function(amount){
+				this.amount = this.amount - amount;
+			}
 
 	
 

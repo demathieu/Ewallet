@@ -102,9 +102,8 @@ redirectionSafe = new policyBuilder.policy({})
 //8: Policy preventing impersonation attacks using XMLHttpRequest object.													
 
 locationSafe = new policyBuilder.policy({})
-								.deny({method: 'send'})
-								.deny({method: 'open'}).
-								.whiteList(allowedURLs).
+								.deny({method: 'send'},{method: 'open'})
+								.whiteList(allowedURLs)
 								.install(XMLHttpRequest);
 								
 calling twice to deny means that now the policy can be denied by either a "set" call to 'send' or 'open'. 
@@ -117,14 +116,14 @@ So this means that a policy keeps a list of objects of the type {method: ... arg
 //window.open("", "", "location=yes,status=yes");
 								
 locationSafe = new policyBuilder.policy({})
-								.allow({method: 'open' , arguments : ['','','location=yes,status=yes']})
+								.whiteList(['','','location=yes,status=yes'])								
+								.deny({method: 'open'})
 								.install(window)
 
 //11: Policy to disable methods that might cause resource abuse. (Deny access to window.alert and window.prompt)
 
 windowSafe = new policyBuilder.policy({})
-							  .deny({method: 'alert'})
-							  .deny({method: 'prompt'})
+							  .deny({method: 'alert'},{method: 'prompt'})
 							  .install(window)
 
 
@@ -134,3 +133,38 @@ frameSafe = new policyBuilder.policy({})
 							 .deny({method: 'assign'})
 							 .whiteList(allowedURLs)
 							 .install(frame.location)
+
+//13: Bob may read the amount property and invoke the deposit method
+
+accountSafe = new policyBuilder.policy({})
+							   .allow({propertyRead:'amount'})
+							   .install(account)
+
+accountSafe = new policyBuilder.policy({})
+								.allow({method: 'invoke'})
+								.install(account)
+
+//14: A policy that restricts a subtree to read- only if the root’s class name includes example. Meth- ods named shake may also be invoked.
+
+Don't know
+
+//15:Object x has two properties, one of which (secret) is not meant to be readable by the recipient of the wrapper.
+
+xSafe = new policyBuilder.policy({})
+						 .deny(method: 'Secret')
+						 .install(x)
+
+
+//16: a policy, which also allows subdomains of the domains in the whitelist
+
+Don't know
+
+
+//18:
+//19:
+//20:
+//21:
+//22:
+//23:
+//24:
+

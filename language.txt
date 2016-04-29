@@ -1,0 +1,35 @@
+Syntax
+
+Policy
+	State
+	{}
+
+Deny 
+	[method]
+	[method][arguments]
+	[propertyUpdate]
+	[propertyRead]
+	[propertyFull]
+
+Allow
+	[method]
+	[method] [arguments]
+	[method] [arguments] [tracesignature]
+	[propertyUpdate]
+	[propertyRead]
+	[propertyFull]
+
+
+WhiteList
+	[urls]
+	[[urls]]
+
+Monitor
+
+Install
+	object
+
+InstallOnMultiple 
+	[objects]
+
+	
