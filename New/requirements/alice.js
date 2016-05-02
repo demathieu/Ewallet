@@ -26,7 +26,7 @@ var alice = {
 			removeAmount3 : function(amount,amount2,amount3){
 				this.amount = this.amount - amount - amount2 - amount3;
 			},
-			removeAmount4 : function(){
+			removeAmountNothing : function(amount){
 				console.log('nothing')
 			}
 };

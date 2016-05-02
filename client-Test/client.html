@@ -32,17 +32,19 @@ var state = {
                  .install(window);
 //window.open("http://www.w3schools.com");
 //console.log(test);
-//test.open("http://www.w3schools.com");
-var handler = {
-  get: function(target,name,recv){
-    return Reflect.get(target,name,recv);
-  }
-}
+test.open("http://www.w3schools.com");
+// var handler = {
+//   get: function(target,name,recv){
+//     return function(... args){
+//       return target[name].apply(target,args);
+//     }
+    
+//   }
+// }
 
- var proxy = new Proxy(window,handler);
- proxy.alert("test");
+//  var proxy = new Proxy(window,handler);
+// proxy.alert("test");
 //window.alert("test");
-
  // var proxy = new Proxy(document,handler);
  // proxy.createElement("Iframe");
 

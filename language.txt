@@ -1,8 +1,6 @@
 Syntax
 
-Policy
-	State
-	{}
+
 
 Deny 
 	[method]
@@ -24,12 +22,25 @@ WhiteList
 	[urls]  [1,2,3]
 	[[urls]] [[1,2,3],[1,2,3]]
 
-Monitor
+WhiteListEqual
 
 Install
 	object
 
 InstallOnMultiple 
 	[objects]
+
+
+Policy
+	State
+	{}
+
+
+
+Monitor
+
+
+
+
 
 	

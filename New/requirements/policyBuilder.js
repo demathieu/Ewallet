@@ -81,15 +81,13 @@ function policy(inputState){
 					var method = Reflect.get(target, name, recv);
 					var properties = getAllProp(denyObject);
 					if (helper.contains(properties,name)){
-						//return function (... args) {
-							return function (){
+						return function (... args) {
 							this.state = cleanState(state,defaultStateMethodArg);		 							
 							var correctObject = denyObject.find(function(el){
 								return el.method === name
 							})
 							if (this.state.filter(target,name,args,recv,correctObject['arguments'])){
-								return Reflect.apply(method, this, arguments);
-								//return target[name].apply(target,args);
+								return target[name].apply(target,args);
 							}else{
 								throw err;
 							}
@@ -107,7 +105,7 @@ function policy(inputState){
 					console.log("set: " +name);
 					var properties = getAllProp(denyObject);
 					if (helper.contains(properties,name)){
-        						this.state = cleanState(state,defaultWhiteList); // moet state blijven anders kan whitelist het niet overschrijven
+        						this.state = cleanState(state,defaultStateMethodArg); // moet state blijven anders kan whitelist het niet overschrijven
         						if (this.state.filter(target,name,value,recv)){
         							Reflect.set(target,name,value,recv);
         						}else{
@@ -116,6 +114,50 @@ function policy(inputState){
         					}
         					Reflect.set(target,name,value,recv);
         				}
+        			}
+        		}else if (denyObject[0].hasOwnProperty('propertyRead')){
+        			var state = this.state;
+        			this.handler = {
+        				get:function(target,name,recv){
+        					var properties = getAllProp(denyObject);
+        					if (helper.contains(properties,name)){
+        						this.state = cleanState(state,defaultStateMethodArg);
+        						if(this.state.filter(target,name,[],recv)){
+        							Reflect.get(target,name,recv);
+        						}else{
+        							throw err;
+        						}
+        					}
+        				}
+        			}
+        		} else if (denyObject[0].hasOwnProperty('propertyFull')){
+        			var state = this.state;
+        			this.handler = {
+        				get : function(target,name,recv){
+        					var properties = getAllProp(denyObject);
+        					if(helper.contains(properties,name)){
+        						this.state = cleanState(state,defaultStateMethodArg);
+        						if(this.state.filter(target,name,[],recv)){
+        							Reflect.get(target,name,recv);
+        						}else{
+        							throw err;
+        						}
+        					}
+        				},
+        				set:function(target,name,value,recv){
+        					console.log("set: " +name);
+        					var properties = getAllProp(denyObject);
+        					if (helper.contains(properties,name)){
+        						this.state = cleanState(state,defaultStateMethodArg); // moet state blijven anders kan whitelist het niet overschrijven
+        						if (this.state.filter(target,name,value,recv)){
+        							Reflect.set(target,name,value,recv);
+        						}else{
+        							throw err;
+        						}
+        					}
+        					Reflect.set(target,name,value,recv);
+        				}
+
         			}
         		}
         		return this;
@@ -131,7 +173,7 @@ function policy(inputState){
         					});
         					return helper.containsMultiList(allowedList,val)
         				}
-        				return helper.containsMultiList(allowedList,value)
+        				return helper.contains(allowedList,value)
         			}
         		}
         		return this;
@@ -239,8 +281,8 @@ function policy(inputState){
 
 				this.installOnMultipleTargets = function(listOfTargets){
 					var listOfProxy = [];
-					for(target in listOfTargets){
-						var temp = new Proxy(listOfTargets[target],this.handler);
+					for (var i = 0;i < listOfTargets.length;i++){
+						var temp = new Proxy(listOfTargets[i],this.handler); 
 						listOfProxy.push(temp);
 					}
 					return listOfProxy;
@@ -337,7 +379,7 @@ function passed(el){
 
 
 function nextExpectedEl(list){
-	i = 0;
+	var i = 0;
 	while(i < list.length){
 		if(value(list[i]) == 0){
 			return list[i];
