@@ -233,17 +233,17 @@ var _ = require('lodash');
 // //console.log(contains([10,5],6))
 // console.log(contains2(allowedListOld,listOld))
 // console.log(contains2(allowedList,list))
-function createExonerateList (signatureMap, name){
-	var i = 0;
-	var list = [];
+// function createExonerateList (signatureMap, name){
+// 	var i = 0;
+// 	var list = [];
 
-	signatureMap.forEach(function(value, key, map){
-		if (key == name){
-			list.push(value);
-		}
-	})
-	return _.flatten(list); 
-}
+// 	signatureMap.forEach(function(value, key, map){
+// 		if (key == name){
+// 			list.push(value);
+// 		}
+// 	})
+// 	return _.flatten(list); 
+// }
 
 function convertListToObjects(list){
 	var result = [];
@@ -266,10 +266,6 @@ function convertObjectToSignatureMap(list,keyword){
 	return result;
 }
 
-var list = [{method: 'removeAmount4',traceSignature:['amount']}]
-var list2 = [{method: 'removeAmount4',traceSignature:['amount','amount3']},{method: 'removeAmount5',traceSignature:['amount2']}]
-
-var test = convertObjectToSignatureMap(list2,'method')
 
 function updateMap(list, name){
 	list.forEach(function (el){
@@ -280,12 +276,8 @@ function updateMap(list, name){
 	})
 }
 
-updateMap(test,'removeAmount4')
-updateMap(test,'removeAmount5')
-updateMap(test,'amount');
-updateMap(test,'amount3');
-console.log(test);
-console.log(getExonerateList(test));
+
+
 function getExonerateList(list){
 	var result = [];
 	list.forEach(function(el){
@@ -335,12 +327,13 @@ function value (el){
 	return el[1];
 }
 
-var temp = [ 'removeAmount4', 'amount', 'amount3' ]
+var list = [{method: 'removeAmount4',traceSignature:['amount']}]
+var list2 = [{method: 'removeAmount4',traceSignature:['amount','amount3']},{method: 'removeAmount5',traceSignature:['amount2']}]
 
-
-var obj = {'test' : 0}
-// console.log(obj.value)
-
-// //console.log(convertListToObjects(temp))
-
-// console.log(test)
+var test = convertObjectToSignatureMap(list2,'method')
+updateMap(test,'removeAmount4')
+updateMap(test,'removeAmount5')
+updateMap(test,'amount');
+updateMap(test,'amount3');
+console.log(test);
+console.log(getExonerateList(test));

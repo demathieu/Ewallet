@@ -1,3 +1,5 @@
+'use strict'
+
 var harmony = require('harmony-reflect');
 var Reflect = require('./reflect.js');
 var helper = require('./helper.js');
@@ -9,8 +11,8 @@ function isEmpty(obj) {
 }
 
 var defaultStateMethodArg =  {
-	filter: function(target,name,arguments,recv,condition){
-		if ( typeof condition == "undefined" ||arguments[0] == condition[0]){ 
+	filter: function(target,name,args,recv,condition){
+		if ( typeof condition == "undefined" ||args[0] == condition[0]){ 
 			return false;
 		}else{
 			return true;
@@ -19,7 +21,7 @@ var defaultStateMethodArg =  {
 }
 
 var defaultWhiteList = {
-	filter: function(target,name,arguments,recv,whiteList){
+	filter: function(target,name,args,recv,whiteList){
 		if(helper.contains(whitelist,name)){
 			return false;
 		}else{
@@ -79,13 +81,15 @@ function policy(inputState){
 					var method = Reflect.get(target, name, recv);
 					var properties = getAllProp(denyObject);
 					if (helper.contains(properties,name)){
-						return function () {
+						//return function (... args) {
+							return function (){
 							this.state = cleanState(state,defaultStateMethodArg);		 							
 							var correctObject = denyObject.find(function(el){
 								return el.method === name
 							})
-							if (this.state.filter(target,name,arguments,recv,correctObject['arguments'])){
+							if (this.state.filter(target,name,args,recv,correctObject['arguments'])){
 								return Reflect.apply(method, this, arguments);
+								//return target[name].apply(target,args);
 							}else{
 								throw err;
 							}

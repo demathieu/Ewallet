@@ -21,8 +21,8 @@ Allow
 
 
 WhiteList
-	[urls]
-	[[urls]]
+	[urls]  [1,2,3]
+	[[urls]] [[1,2,3],[1,2,3]]
 
 Monitor
 
