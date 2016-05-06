@@ -1,0 +1,63 @@
+% $Id: thesis.tex 27604 2015-03-25 11:11:45Z njonchee $
+
+\documentclass[a4paper,12pt]{report}
+
+% The following makes latex use nicer postscript fonts.
+\usepackage{times}
+\usepackage[english]{babel}
+\usepackage[colorlinks,urlcolor=blue,linkcolor=blue]{hyperref}
+
+\usepackage{vubtitlepage}
+
+
+% THE NAME OF YOUR DEGREE (which should not be translated, i.e., which should be the same on both the Dutch and English versions of your title page)
+% Uncomment the appropriate line:
+\degree{Master of Science in de Ingenieurswetenschappen: Computerwetenschappen}
+%\degree{Master of Science in Applied Sciences and Engineering: Computer Science}
+%\degree{Master of Science in de Toegepaste Informatica}
+
+
+\faculty{Faculteit Wetenschappen en Bio-ingenieurswetenschappen}
+\department{Vakgroep Computerwetenschappen}
+
+\title{An agile framework\\ for aspect-oriented cloud applications\\ in Fortran 77}
+\reason{Proefschrift ingediend met het oog op het behalen van de graad
+van}
+\author{Steven Student}
+
+%\promotortitle{Promotors}
+\promotor{Prof.\ Dr.\ Alice Jansens}
+\advisortitle{Begeleiders}
+\advisors{Dr.\ Bob Jansens\\
+          Carol Jansens--Jansens}
+
+\date{Juni 2016}
+
+
+\begin{document}
+
+\hypersetup{pageanchor=false}
+
+% Generate Dutch title page
+\maketitlepage
+
+
+\faculty{Faculty of Science and Bio-Engineering Sciences}
+\department{Department of Computer Science}
+
+\reason{Thesis submitted in partial fulfillment of the requirements
+for the degree of}
+
+\advisortitle{Advisors}
+
+\date{June 2016}
+
+
+% Generate English title page
+\maketitlepage
+
+\hypersetup{pageanchor=true}
+
+% INSERT CONTENT HERE ;-)
+
+\end{document}

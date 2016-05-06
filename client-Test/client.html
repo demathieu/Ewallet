@@ -27,23 +27,27 @@ var state = {
 //var logger = logger(document.images);
 //logger.open("http://www.w3schools.com");
 //logger.src="test";
- var test = new policy(state)
-                 .deny({method: 'open'})
-                 .install(window);
+ // var test = new policy(state)
+ //                 .deny({method: 'open'})
+ //                 .install(window);
 //window.open("http://www.w3schools.com");
 //console.log(test);
-test.open("http://www.w3schools.com");
-// var handler = {
-//   get: function(target,name,recv){
-//     return function(... args){
-//       return target[name].apply(target,args);
-//     }
-    
-//   }
-// }
+//test.open("http://www.w3schools.com");
 
-//  var proxy = new Proxy(window,handler);
-// proxy.alert("test");
+
+var handler = {
+  get: function(target,name,recv){
+    console.log("get: "+ name)
+    return function(... args){
+      return target[name].apply(this,args);
+    }
+    
+  }
+}
+
+var proxy = new Proxy(alice,handler);
+//proxy.alert("test");
+console.log(proxy.removeAmount(10))
 //window.alert("test");
  // var proxy = new Proxy(document,handler);
  // proxy.createElement("Iframe");

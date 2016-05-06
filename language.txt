@@ -1,7 +1,5 @@
 Syntax
 
-
-
 Deny 
 	[method]
 	[method][arguments]

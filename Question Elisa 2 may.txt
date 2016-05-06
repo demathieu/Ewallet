@@ -1,0 +1,26 @@
+Questions
+
+I don't block combinations
+
+Inside/Outside on DOM elements
+
+Whitelist Always needs to be defined before Deny is that a problem?
+
+WhiteList + monitor
+
+Whitelist +  State
+
+
+EVALUATION
+
+Evaluation Self protective javascript.
+
+
+WRITING
+
+What to write about? 
+
+- Membranes? 
+- Reflection
+- Mash ups security?
+

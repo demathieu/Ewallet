@@ -20,16 +20,11 @@ windowSafe = new policyBuilder.policy(state)
 
 
 
-// Mathieu: why filter has all the set arguments?? 
-// Mathieu: Deny is working on a Get statement not on a set statement here. 
 
 //4: Policy to disallow iframe creation
 locationSafe = new policyBuilder.policy({})
 								.deny({method:'createElement', arguments: ['iframe']}).
 								.install(document);
-
-// Mathieu :: Making assumtion that (typeof method === "function") == {method:, arguments:}.  Not sure if this is true !!! 
-
 
 							
 //5: Policy preventing leakage of information through loading of new images
@@ -120,6 +115,13 @@ locationSafe = new policyBuilder.policy({})
 								.deny({method: 'open'})
 								.install(window)
 
+//10 : Policy preventing potential forgery attacks by injecting bad links.
+
+documentSafe = new policyBuilder.policy({})
+								.deny({propertyFull:'links'})
+								.whiteList(allowedLinks)
+								.install(document)
+
 //11: Policy to disable methods that might cause resource abuse. (Deny access to window.alert and window.prompt)
 
 windowSafe = new policyBuilder.policy({})
@@ -130,8 +132,8 @@ windowSafe = new policyBuilder.policy({})
 //12: The intended policy is to limit the content of a frame to URLs specified by a whitelist
 
 frameSafe = new policyBuilder.policy({})
-							 .deny({method: 'assign'})
 							 .whiteList(allowedURLs)
+							 .deny({method: 'assign'})
 							 .install(frame.location)
 
 //13: Bob may read the amount property and invoke the deposit method
@@ -146,7 +148,9 @@ accountSafe = new policyBuilder.policy({})
 
 //14: A policy that restricts a subtree to read- only if the root’s class name includes example. Meth- ods named shake may also be invoked.
 
-Don't know
+documentSafe = new policyBuilder.policy({})
+								.allow({propertyRead:''})  // I'm not sure how to refer to the subtree
+								.
 
 //15:Object x has two properties, one of which (secret) is not meant to be readable by the recipient of the wrapper.
 
@@ -157,14 +161,19 @@ xSafe = new policyBuilder.policy({})
 
 //16: a policy, which also allows subdomains of the domains in the whitelist
 
-Don't know
+documentSafe = new policyBuilder.policy({})
+								.deny(propertyUpdate : 'domain')
+								.whiteListEqual(allowedLinks,EqualFunc)	//takes a whitelist and a function that is going perform the equality check
+								.install(document)
 
+//17: The first part, ’a.?’, gives read/write access to all properties of the object in the a property, but a itself is read-only. The second // part, ’b∗’, allows read and write access to an arbitrarily long chain of properties named b.
 
-//18:
-//19:
-//20:
-//21:
-//22:
-//23:
-//24:
+aSafe = new policyBuilder.policy({})
+						 .deny({propertyRead: 'ALL'})				//keyword :ALL will ally policy on all properties of object 
+						 .install(a)
+
+bSafe = new policyBuilder.policy({})
+					     .allow({properyFull:'b'})
+					     .install(b)
+
 

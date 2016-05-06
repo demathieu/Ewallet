@@ -1,0 +1,18 @@
+Notes
+
+WebJail: Least-privilege Integration of Third-party Components inWeb Mashups
+
+My library can be used to let different mashups work together but also in a mashup itself I could be deployed.
+
+current mashup integration techniques?
+
+Web 2.0?
+
+31?
+
+Least-privilege principle, what uses this?
+
+25?
+
+4? script inclution
+18? iframe sandboxing

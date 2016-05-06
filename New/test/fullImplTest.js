@@ -288,4 +288,134 @@ describe('Complete Test suit', function() {
 			}).to.throw(Error);
 		});
 	});
+	describe('Basic state tests',function (){
+		it('Test is if basic deny method works with state, states defines removeAmount can only be triggered two times',function(){
+			var state = {
+				popuptimes : 0, 
+				filter: function(target,name,value,recv){  
+					if(this.popuptimes >= 2){
+						return false;
+					} else {
+						this.popuptimes++;
+						return true;
+					}
+				}
+			}
+			aliceSafe = new policyBuilder.policy(state)
+			.deny({method: 'removeAmount'})
+			.install(alice);
+			aliceSafe.removeAmount(0);
+			aliceSafe.removeAmount(0);
+			expect(function(){
+				aliceSafe.removeAmount(0);
+			}).to.throw(Error);
+		});
+		it('Test is if basic deny method with argument works with state, states defines removeAmount can only be triggered two times',function(){
+			var state = {
+				popuptimes : 0,
+				filter: function(target,name,value,recv,amount){  
+					if(this.popuptimes >= amount[0]){
+						return false;
+					} else {
+						this.popuptimes++;
+						return true;
+					}
+				}
+			}
+			aliceSafe = new policyBuilder.policy(state)
+			.deny({method: 'removeAmount', arguments: [2]})
+			.install(alice);
+			aliceSafe.removeAmount(0);
+			aliceSafe.removeAmount(0);
+			expect(function(){
+				aliceSafe.removeAmount(0);
+			}).to.throw(Error);
+		});
+		it('Test is if basic deny method with argument works with state, states defines removeAmount can only be triggered two times',function(){
+			var state = {
+				popuptimes : 0, 
+				filter: function(target,name,value,recv,amount){  
+					if(this.popuptimes >= 2){
+						return false;
+					} else {
+						this.popuptimes++;
+						return true;
+					}
+				}
+			}
+			aliceSafe = new policyBuilder.policy(state)
+			.deny({propertyUpdate:'amount'})
+			.install(alice);
+
+
+			aliceSafe.amount = 10;
+			aliceSafe.amount = 10;
+			expect(function(){
+				aliceSafe.amount = 10;;
+			}).to.throw(Error);
+		});
+		it('Test is if basic deny method with argument works with state, states defines removeAmount can only be triggered two times',function(){
+			var state = {
+				popuptimes : 0, 
+				filter: function(target,name,value,recv,amount){  
+					if(this.popuptimes >= 2){
+						return false;
+					} else {
+						this.popuptimes++;
+						return true;
+					}
+				}
+			}
+			aliceSafe = new policyBuilder.policy(state)
+			.deny({propertyUpdate:'amount'})
+			.install(alice);
+			aliceSafe.amount = 10;
+			aliceSafe.amount = 10;
+			expect(function(){
+				aliceSafe.amount = 10;;
+			}).to.throw(Error);
+		});
+		it('Test is if basic deny propertyRead works with state, states defines Amount can only be triggered two times',function(){
+			var state = {
+				popuptimes : 0, 
+				filter: function(target,name,value,recv,amount){  
+					if(this.popuptimes >= 2){
+						return false;
+					} else {
+						this.popuptimes++;
+						return true;
+					}
+				}
+			}
+			aliceSafe = new policyBuilder.policy(state)
+			.deny({propertyRead:'amount'})
+			.install(alice);
+			aliceSafe.amount;
+			aliceSafe.amount;
+			expect(function(){
+				aliceSafe.amount;
+			}).to.throw(Error);
+		});
+		it('Test is if basic deny propertyFull works with state, states defines Amount can only be triggered two times',function(){
+			var state = {
+				popuptimes : 0, 
+				filter: function(target,name,value,recv,amount){  
+					if(this.popuptimes >= 2){
+						return false;
+					} else {
+						this.popuptimes++;
+						return true;
+					}
+				}
+			}
+			aliceSafe = new policyBuilder.policy(state)
+			.deny({propertyFull:'amount'})
+			.install(alice);
+			aliceSafe.amount;
+			aliceSafe.amount;
+			expect(function(){
+				aliceSafe.amount = 10;
+			}).to.throw(Error);
+		});
+	});
 });
