@@ -242,7 +242,7 @@
 // // 			list.push(value);
 // // 		}
 // // 	})
-// // 	return _.flatten(list); 
+// // 	return _.flatten(list);
 // // }
 
 // // function convertListToObjects(list){
@@ -375,19 +375,63 @@
 
 // var result =  filterChainOR (test.state)
 // console.log(result)
-function isEmpty(obj) {
-	for (var x in obj) { if (obj.hasOwnProperty(x))  return false; }
-		return true;
-}
-list1 = [{},'full']
+// function isEmpty(obj) {
+// 	for (var x in obj) { if (obj.hasOwnProperty(x))  return false; }
+// 		return true;
+// }
+// list1 = [{},'full']
+//
+// function cleanState(inputState,defaultState){
+// 	console.log(isEmpty(inputState[0]))
+// 	if (inputState[0] == {} ){
+// 		return inputState[0] = defaultState;
+// 	}else{
+// 		return inputState;
+// 	}
+// }
 
-function cleanState(inputState,defaultState){
-	console.log(isEmpty(inputState[0]))
-	if (inputState[0] == {} ){
-		return inputState[0] = defaultState;
-	}else{
-		return inputState;
-	}
+var list = [{
+  propertyUpdate: 'amount'
+}, {
+  propertyUpdate: 'lastname'
+}, {
+  method: 'removeAmount'
+}, {
+  method: 'removeAmount2'
+}, {
+  method: 'removeAmount3'
+}]
+
+
+function getAllProp(list) {
+  var val = [];
+  list.forEach(function(el) {
+    Object.keys(el).forEach(function(key) {
+      val.push(el[key]);
+    });
+  })
+  return val;
 }
 
-console.log(cleanState(list1,'niks'))
+function getAllPropWithKey(list, keywords) {
+  var val = [];
+  list.forEach(function(el) {
+    Object.keys(el).forEach(function(key) {
+			keywords.forEach(function (keyword){
+				if (key == keyword) {
+					val.push(el[key]);
+				}
+			});
+    });
+  })
+  return val;
+}
+
+
+
+
+
+
+
+//console.log(getAllPropWithKey(list,['method']))
+console.log(getAllPropWithKey(list,['method','propertyUpdate']))
