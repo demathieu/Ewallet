@@ -3,10 +3,8 @@ var alice = require('./../requirements/alice.js');
 var bob = require('./../requirements/bob.js');
 var helper = require('./../requirements/helper.js')
 
-aliceSafe = new policyBuilder.policy()
-	.deny([{method: 'removeAmount'},{propertyRead: 'amount'},{method: 'removeAmountNothing'},{method: 'removeAmount3'},{propertyFull: 'amount'}])
-	.install(alice);
+leakageSafe = new policyBuilder.policy()
+								.deny({propertyFull:'amount', whiteList : [10]})
+								.install(alice);
 
-	aliceSafe.amount=10;
-	//aliceSafe.lastname;
-	//aliceSafe.removeAmountNothing();
+leakageSafe.amount = 10;

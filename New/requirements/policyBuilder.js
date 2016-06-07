@@ -75,11 +75,11 @@ function getAllPropWithKey(list, keywords) {
   var val = [];
   list.forEach(function(el) {
     Object.keys(el).forEach(function(key) {
-			keywords.forEach(function (keyword){
-				if (key == keyword) {
-					val.push(el[key]);
-				}
-			});
+      keywords.forEach(function(keyword) {
+        if (key == keyword) {
+          val.push(el[key]);
+        }
+      });
     });
   })
   return val;
@@ -140,8 +140,7 @@ function policy(inputState, chainOperator) {
     }
     var state = this.state;
     var err = new Error('is not allowed by the proxy');
-    console.log(denyObject)
-    if (typePolicy(denyObject, ['propertyRead', 'method','propertyFull'])) {
+    if (typePolicy(denyObject, ['propertyRead', 'method', 'propertyFull'])) {
       this.handler["get"] = function(target, name, recv) {
         console.log("get: " + name);
         var method = Reflect.get(target, name, recv);
@@ -152,9 +151,14 @@ function policy(inputState, chainOperator) {
               var correctObject = denyObject.find(function(el) {
                 return el.method === name
               })
-              filterCombinator('function', this, state, chainOperator, defaultStateMethodArg, target, name, args, recv, correctObject['arguments']);
+              var defaultState = defaultStateMethodArg;
+              if (correctObject.hasOwnProperty('whiteList')) {
+                defaultState = reCreateWhiteList(correctObject['whiteList']);
+              }
+              filterCombinator('function', this, state, chainOperator, defaultState, target, name, args, recv, correctObject['arguments']);
             }
           } else {
+
             filterCombinator('property', this, state, chainOperator, defaultStateMethodArg, target, name, [], recv);
           }
         } else {
@@ -162,14 +166,20 @@ function policy(inputState, chainOperator) {
         }
       }
     }
-    if (typePolicy(denyObject, ['propertyUpdate','propertyFull'])) {
+    if (typePolicy(denyObject, ['propertyUpdate', 'propertyFull'])) {
       var state = this.state;
       this.handler["set"] = function(target, name, value, recv) {
         console.log("set: " + name);
-        var properties = getAllPropWithKey(denyObject,['propertyUpdate','propertyFull']);
-        console.log(properties)
+        var properties = getAllPropWithKey(denyObject, ['propertyUpdate', 'propertyFull']);
         if (helper.contains(properties, name)) {
-          this.state = cleanState(state, defaultStateMethodArg);
+          var correctObject = denyObject.find(function(el) {
+            return el.propertyUpdate === name || el.propertyFull === name 
+          })
+          var defaultState = defaultStateMethodArg;
+          if (correctObject.hasOwnProperty('whiteList')) {
+            defaultState = reCreateWhiteList(correctObject['whiteList']);
+          }
+          this.state = cleanState(state, defaultState);
           if (filterChain(chainOperator)(this.state, target, name, value, recv)) {
             Reflect.set(target, name, value, recv);
           } else {
@@ -373,6 +383,32 @@ module.exports.policy = policy;
 // 		return undefined;
 // 	};
 // }
+
+
+var defaultWhiteList = {
+  filter: function(target, name, args, recv, whiteList) {
+    if (helper.contains(whitelist, name)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+}
+
+function reCreateWhiteList(allowedList) {
+  return {
+    filter: function(target, name, value, receiver) {
+      if (value.constructor == Object) {
+        var val = []
+        Object.keys(value).forEach(function(key) {
+          val.push(value[key]);
+        });
+        return helper.containsMultiList(allowedList, val)
+      }
+      return helper.contains(allowedList, value)
+    }
+  }
+}
 
 function convertListToObjects(list) {
   var result = [];

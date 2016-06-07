@@ -20,7 +20,6 @@ windowSafe = new policyBuilder.policy(state)
 
 
 
-
 //4: Policy to disallow iframe creation
 locationSafe = new policyBuilder.policy()
 								.deny({method:'createElement', arguments: ['iframe']}).
@@ -74,7 +73,7 @@ redirectionSafe = new policyBuilder.policy()
 //8: Policy preventing impersonation attacks using XMLHttpRequest object.													
 
 locationSafe = new policyBuilder.policy()
-								.deny({method: 'send',whiteList: allowedURLs},{method: 'open',whiteList: allowedURLs})
+								.deny([{method: 'send',whiteList: allowedURLs},{method: 'open',whiteList: allowedURLs}])
 								.install(XMLHttpRequest);
 								
 
