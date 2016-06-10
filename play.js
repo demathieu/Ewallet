@@ -390,48 +390,5 @@
 // 	}
 // }
 
-var list = [{
-  propertyUpdate: 'amount'
-}, {
-  propertyUpdate: 'lastname'
-}, {
-  method: 'removeAmount'
-}, {
-  method: 'removeAmount2'
-}, {
-  method: 'removeAmount3'
-}]
-
-
-function getAllProp(list) {
-  var val = [];
-  list.forEach(function(el) {
-    Object.keys(el).forEach(function(key) {
-      val.push(el[key]);
-    });
-  })
-  return val;
-}
-
-function getAllPropWithKey(list, keywords) {
-  var val = [];
-  list.forEach(function(el) {
-    Object.keys(el).forEach(function(key) {
-			keywords.forEach(function (keyword){
-				if (key == keyword) {
-					val.push(el[key]);
-				}
-			});
-    });
-  })
-  return val;
-}
-
-
-
-
-
-
-
-//console.log(getAllPropWithKey(list,['method']))
-console.log(getAllPropWithKey(list,['method','propertyUpdate']))
+var object = { properties : "test", name: "jan"}
+console.log(object['propertie']|| [])

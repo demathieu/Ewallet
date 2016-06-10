@@ -14,7 +14,7 @@ function isEmpty(obj) {
 
 var defaultStateMethodArg = {
   filter: function(target, name, args, recv, condition) {
-    if (typeof condition == "undefined" || args[0] == condition[0]|| isEmpty(condition)) {
+    if (typeof condition == "undefined" || args[0] == condition[0]) {
       return false;
     } else {
       return true;
@@ -24,7 +24,7 @@ var defaultStateMethodArg = {
 
 var defaultStateMethodArgAllow = {
   filter: function(target, name, args, recv, condition) {
-    if (typeof condition == "undefined" || args[0] == condition[0]|| isEmpty(condition)) {
+    if (typeof condition == "undefined" || args[0] == condition[0]) {
       return true;
     } else {
       return false;
@@ -95,11 +95,12 @@ function filterChainAnd(filterList, target, name, args, recv, condition) {
   return filterValue;
 }
 
-function filterChainOR(filterList, target, name, args, recv, condition, test) {
+function filterChainOR(filterList, target, name, args, recv, condition) {
   var filterValue = false;
   var i = 0;
+  console.log(filterList)
   while (!filterValue && i < filterList.length) {
-    filterValue = filterList[i].filter(target, name, args, recv, condition, test);
+    filterValue = filterList[i].filter(target, name, args, recv, condition);
     i++;
   }
   return filterValue;
@@ -113,10 +114,10 @@ function filterChain(operandString) {
   }
 }
 
-function filterCombinator(type, that, state, chainOperator, defaultState, target, name, argscalled, recv, inputObject) {
-  var err = new Error('call '+ name + ' is not allowed by the proxy');
+function filterCombinator(type, that, state, chainOperator, defaultState, target, name, argscalled, recv, argsObject) {
+  var err = new Error('is not allowed by the proxy');
   that.state = cleanState(state, defaultState);
-  if (filterChain(chainOperator)(that.state, target, name, argscalled, recv, inputObject['arguments']|| [], inputObject)) {
+  if (filterChain(chainOperator)(that.state, target, name, argscalled, recv, argsObject)) {
     if (type === 'function') {
       return target[name].apply(that, argscalled);
     } else {
@@ -138,26 +139,27 @@ function policy(inputState, chainOperator) {
       denyObject.push(denyObjectList);
     }
     var state = this.state;
-    var err = new Error('is not allowed by the proxy 2');
+    var err = new Error('is not allowed by the proxy');
     if (typePolicy(denyObject, ['propertyRead', 'method', 'propertyFull'])) {
       this.handler["get"] = function(target, name, recv) {
-          console.log("get: " + name);
+        console.log("get: " + name);
         var method = Reflect.get(target, name, recv);
         var properties = getAllProp(denyObject);
         if (helper.contains(properties, name)) {
-          var correctObject = denyObject.find(function(el) {
-            return el.method || el.propertyRead || el.propertyFull === name
-          })
           if (typeof method === 'function') {
             return function(...args) {
+              var correctObject = denyObject.find(function(el) {
+                return el.method === name
+              })
               var defaultState = defaultStateMethodArg;
               if (correctObject.hasOwnProperty('whiteList')) {
                 defaultState = reCreateWhiteList(correctObject['whiteList']);
               }
-              filterCombinator('function', this, state, chainOperator, defaultState, target, name, args, recv, correctObject);
+              filterCombinator('function', this, state, chainOperator, defaultState, target, name, args, recv, correctObject['arguments']);
             }
           } else {
-            filterCombinator('property', this, state, chainOperator, defaultStateMethodArg, target, name, [], recv,correctObject);
+
+            filterCombinator('property', this, state, chainOperator, defaultStateMethodArg, target, name, [], recv);
           }
         } else {
           return Reflect.get(target, name, recv);
@@ -356,6 +358,31 @@ function policy(inputState, chainOperator) {
   }
 }
 
+module.exports.policy = policy;
+//window.policy = policy;
+
+// if (!Array.prototype.find) {
+// 	Array.prototype.find = function(predicate) {
+// 		if (this === null) {
+// 			throw new TypeError('Array.prototype.find called on null or undefined');
+// 		}
+// 		if (typeof predicate !== 'function') {
+// 			throw new TypeError('predicate must be a function');
+// 		}
+// 		var list = Object(this);
+// 		var length = list.length >>> 0;
+// 		var thisArg = arguments[1];
+// 		var value;
+//
+// 		for (var i = 0; i < length; i++) {
+// 			value = list[i];
+// 			if (predicate.call(thisArg, value, i, list)) {
+// 				return value;
+// 			}
+// 		}
+// 		return undefined;
+// 	};
+// }
 
 
 var defaultWhiteList = {
@@ -464,5 +491,3 @@ function key(el) {
 function value(el) {
   return el[1];
 }
-module.exports.policy = policy;
-//window.policy = policy;

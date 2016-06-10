@@ -2,7 +2,7 @@ Syntax
 
 Deny 
 	[method]
-	[method][arguments]
+	[method][arguments][[Whitelist]]
 	[propertyUpdate]
 	[propertyRead]
 	[propertyFull]

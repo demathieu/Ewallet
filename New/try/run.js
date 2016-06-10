@@ -3,8 +3,21 @@ var alice = require('./../requirements/alice.js');
 var bob = require('./../requirements/bob.js');
 var helper = require('./../requirements/helper.js')
 
-leakageSafe = new policyBuilder.policy()
-								.deny({propertyFull:'amount', whiteList : [10]})
-								.install(alice);
+var state = {
 
-leakageSafe.amount = 10;
+	filter : function (target, name, value, recv,notusing, inputObject){
+		return true;
+	}
+}
+aliceSafe = new policyBuilder.policy(state,'OR')
+	.deny({
+		method: 'hello',
+		 func: function ()
+		 {
+		 	return this == "hello" ? "hola" : "hola";
+		 }
+
+		 })
+	.install(alice)
+
+aliceSafe.hello();

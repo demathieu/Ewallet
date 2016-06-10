@@ -25,7 +25,7 @@ describe('Complete Test suit', function() {
     });
     it('Test is if basic deny method policy on removeAmount allowed correct arguments', function() {
       alice.amount = 0;
-      aliceSafe = new policyBuilder.policy({})
+      aliceSafe = new policyBuilder.policy()
         .deny({
           method: 'removeAmount',
           arguments: [10, 5]
@@ -40,7 +40,7 @@ describe('Complete Test suit', function() {
       }).to.throw(Error);
     });
     it('Test is if basic propertyUpdate works', function() {
-      aliceSafe = new policyBuilder.policy({})
+      aliceSafe = new policyBuilder.policy()
         .deny({
           propertyUpdate: 'amount'
         })
@@ -50,7 +50,7 @@ describe('Complete Test suit', function() {
       }).to.throw(Error);
     });
     it('Test is if basic propertyUpdate still allows reading like it should', function() {
-      aliceSafe = new policyBuilder.policy({})
+      aliceSafe = new policyBuilder.policy()
         .deny({
           propertyUpdate: 'amount'
         })
@@ -60,7 +60,7 @@ describe('Complete Test suit', function() {
 
     });
     it('Test is if basic propertyRead deny reading a property', function() {
-      aliceSafe = new policyBuilder.policy({})
+      aliceSafe = new policyBuilder.policy()
         .deny({
           propertyRead: 'amount'
         })
@@ -70,7 +70,7 @@ describe('Complete Test suit', function() {
       }).to.throw(Error);
     });
     it('Test is if basic propertyRead still allows setting a property like it should', function() {
-      aliceSafe = new policyBuilder.policy({})
+      aliceSafe = new policyBuilder.policy()
         .deny({
           propertyRead: 'amount'
         })
@@ -80,7 +80,7 @@ describe('Complete Test suit', function() {
 
     });
     it('Test is if basic propertyFull deny reading a property', function() {
-      aliceSafe = new policyBuilder.policy({})
+      aliceSafe = new policyBuilder.policy()
         .deny({
           propertyFull: 'amount'
         })
@@ -99,7 +99,7 @@ describe('Complete Test suit', function() {
   describe('Basic Allow tests without state and without whiteList', function() {
 
     it('Test is if basic allow method policy on removeAmount still denys alice.amount', function() {
-      aliceSafe = new policyBuilder.policy({})
+      aliceSafe = new policyBuilder.policy()
         .allow({
           method: 'removeAmount'
         })
@@ -116,7 +116,7 @@ describe('Complete Test suit', function() {
 
     });
     it('Test is if basic allow method policy on removeAmountNothing works', function() {
-      aliceSafe = new policyBuilder.policy({})
+      aliceSafe = new policyBuilder.policy()
         .allow({
           method: 'removeAmountNothing'
         })
@@ -126,7 +126,7 @@ describe('Complete Test suit', function() {
       assert.equal(0, alice.amount)
     });
     it('Test is if basic allow method policy on removeAmount works with traceSignature', function() {
-      aliceSafe = new policyBuilder.policy({})
+      aliceSafe = new policyBuilder.policy()
         .allow({
           method: 'removeAmount',
           traceSignature: ['amount']
@@ -137,7 +137,7 @@ describe('Complete Test suit', function() {
     });
     it('Test is if basic allow method policy on removeAmount allows correct arguments with traceSignature', function() {
       alice.amount = 0;
-      aliceSafe = new policyBuilder.policy({})
+      aliceSafe = new policyBuilder.policy()
         .allow({
           method: 'removeAmountNothing',
           arguments: [10, 5],
@@ -152,7 +152,7 @@ describe('Complete Test suit', function() {
       }).to.throw(Error);
     });
     it('Test is if basic propertyUpdate works', function() {
-      aliceSafe = new policyBuilder.policy({})
+      aliceSafe = new policyBuilder.policy()
         .allow({
           propertyUpdate: 'amount'
         })
@@ -161,7 +161,7 @@ describe('Complete Test suit', function() {
       assert.equal(10, alice.amount)
     });
     it('Test is if basic propertyUpdate still blocks reading like it should', function() {
-      aliceSafe = new policyBuilder.policy({})
+      aliceSafe = new policyBuilder.policy()
         .allow({
           propertyUpdate: 'amount'
         })
@@ -171,7 +171,7 @@ describe('Complete Test suit', function() {
       }).to.throw(Error);
     });
     it('Test is if basic propertyRead allows reading a property', function() {
-      aliceSafe = new policyBuilder.policy({})
+      aliceSafe = new policyBuilder.policy()
         .allow({
           propertyRead: 'amount'
         })
@@ -180,7 +180,7 @@ describe('Complete Test suit', function() {
       assert.equal(0, aliceSafe.amount);
     });
     it('Test is if basic propertyRead denys setting a property like it should', function() {
-      aliceSafe = new policyBuilder.policy({})
+      aliceSafe = new policyBuilder.policy()
         .allow({
           propertyRead: 'amount'
         })
@@ -190,7 +190,7 @@ describe('Complete Test suit', function() {
       }).to.throw(Error);
     });
     it('Test is if basic propertyFull allows Setting a property', function() {
-      aliceSafe = new policyBuilder.policy({})
+      aliceSafe = new policyBuilder.policy()
         .allow({
           propertyFull: 'amount'
         })
@@ -205,10 +205,10 @@ describe('Complete Test suit', function() {
   });
   describe('Basic WhiteList tests without state', function() {
     it('Test is if basic deny method works with WhiteList, 1 arg', function() {
-      aliceSafe = new policyBuilder.policy({})
-        .whiteList([10, 5])
+      aliceSafe = new policyBuilder.policy()
         .deny({
-          method: 'removeAmount'
+          method: 'removeAmount',
+          whiteList:[10,5]
         })
         .install(alice)
       expect(function() {
@@ -216,28 +216,28 @@ describe('Complete Test suit', function() {
       }).to.throw(Error);
     });
     it('Test is if basic deny method works with WhiteList, 1 arg', function() {
-      aliceSafe = new policyBuilder.policy({})
-        .whiteList([10, 5])
+      aliceSafe = new policyBuilder.policy()
         .deny({
-          method: 'removeAmount'
+          method: 'removeAmount',
+          whiteList:[10,5]
         })
         .install(alice)
       aliceSafe.removeAmount(10);
     });
     it('Test is if basic propertyUpdate with WhiteList allows value , 1 arg', function() {
-      aliceSafe = new policyBuilder.policy({})
-        .whiteList([10, 5])
+      aliceSafe = new policyBuilder.policy()
         .deny({
-          propertyUpdate: 'amount'
+          propertyUpdate: 'amount',
+          whiteList:[10,5]
         })
         .install(alice);
       aliceSafe.amount = 10
     });
     it('Test is if basic propertyUpdate with WhiteList blocks wrong value , 1 arg', function() {
-      aliceSafe = new policyBuilder.policy({})
-        .whiteList([10, 5])
+      aliceSafe = new policyBuilder.policy()
         .deny({
-          propertyUpdate: 'amount'
+          propertyUpdate: 'amount',
+          whiteList:[10,5]
         })
         .install(alice);
       expect(function() {
@@ -245,19 +245,19 @@ describe('Complete Test suit', function() {
       }).to.throw(Error);
     });
     it('Test is if basic propertyFull with WhiteList allows value , 1 arg', function() {
-      aliceSafe = new policyBuilder.policy({})
-        .whiteList([10, 5])
+      aliceSafe = new policyBuilder.policy()
         .deny({
-          propertyFull: 'amount'
+          propertyFull: 'amount',
+          whiteList:[10,5]
         })
         .install(alice);
       aliceSafe.amount = 10
     });
     it('Test is if basic propertyUpdate with WhiteList blocks wrong value , 1 arg', function() {
-      aliceSafe = new policyBuilder.policy({})
-        .whiteList([10, 5])
+      aliceSafe = new policyBuilder.policy()
         .deny({
-          propertyFull: 'amount'
+          propertyFull: 'amount',
+          whiteList:[10,5]
         })
         .install(alice);
       expect(function() {
@@ -265,56 +265,52 @@ describe('Complete Test suit', function() {
       }).to.throw(Error);
     });
 
-    it('Test is if basic deny method works with WhiteList, multiple args', function() {
+    it('Test is if basic deny method works with WhiteList, multiple args 1', function() {
       aliceSafe = new policyBuilder.policy({})
-        .whiteList([
-          [0],
-          [0],
-          [0]
-        ])
         .deny({
-          method: 'removeAmount3'
+          method: 'removeAmount3',
+          whiteList: [[0],
+          [0],
+          [0]]
         })
         .install(alice)
       expect(function() {
         aliceSafe.removeAmount3(3, 0, 0);
       }).to.throw(Error);
     });
-    it('Test is if basic deny method works with WhiteList, multiple args', function() {
+    it('Test is if basic deny method works with WhiteList, multiple args 2', function() {
       aliceSafe = new policyBuilder.policy({})
-        .whiteList([
-          [0],
-          [0],
-          [0]
-        ])
         .deny({
-          method: 'removeAmount3'
+          method: 'removeAmount3',
+          whiteList: [[0],
+          [0],
+          [0]]
         })
         .install(alice)
       expect(function() {
         aliceSafe.removeAmount3(0, 3, 0);
       }).to.throw(Error);
     });
-    it('Test is if basic deny method works with WhiteList, multiple args', function() {
+    it('Test is if basic deny method works with WhiteList, multiple args 3', function() {
       aliceSafe = new policyBuilder.policy({})
-        .whiteList([
-          [0],
-          [0],
-          [0]
-        ])
         .deny({
-          method: 'removeAmount3'
+          method: 'removeAmount3',
+          whiteList: [[0],
+          [0],
+          [0]]
         })
         .install(alice)
       expect(function() {
         aliceSafe.removeAmount3(0, 0, 3);
       }).to.throw(Error);
     });
-    it('Test is if basic deny method works with WhiteList, multiple args', function() {
-      aliceSafe = new policyBuilder.policy({})
-        .whiteList([0], [0], [0])
+    it('Test is if basic deny method works with WhiteList, multiple args 4', function() {
+      aliceSafe = new policyBuilder.policy()
         .deny({
-          method: 'removeAmount3'
+          method: 'removeAmount3',
+          whiteList: [[0],
+          [0],
+          [0]]
         })
         .install(alice)
       aliceSafe.removeAmount3(0, 0, 0);
@@ -340,26 +336,26 @@ describe('Complete Test suit', function() {
     });
   });
 
-  describe('Basic WhiteList equality tests without state', function() {
-    it('Test is if basic deny method works with WhiteList, 1 arg', function() {
-      var equalFunc = function(name, value, allowedList) {
-        if (helper.contains(allowedList, value)) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-      aliceSafe = new policyBuilder.policy({})
-        .whiteListEqual([10, 5], equalFunc)
-        .deny({
-          method: 'removeAmount'
-        })
-        .install(alice)
-      expect(function() {
-        aliceSafe.removeAmount(0);
-      }).to.throw(Error);
-    });
-  });
+  // describe('Basic WhiteList equality tests without state', function() {
+  //   it('Test is if basic deny method works with WhiteList, 1 arg', function() {
+  //     var equalFunc = function(name, value, allowedList) {
+  //       if (helper.contains(allowedList, value)) {
+  //         return true;
+  //       } else {
+  //         return false;
+  //       }
+  //     }
+  //     aliceSafe = new policyBuilder.policy({})
+  //       .whiteListEqual([10, 5], equalFunc)
+  //       .deny({
+  //         method: 'removeAmount'
+  //       })
+  //       .install(alice)
+  //     expect(function() {
+  //       aliceSafe.removeAmount(0);
+  //     }).to.throw(Error);
+  //   });
+  // });
   describe('Basic state tests', function() {
     it('Test is if basic deny method works with state, states defines removeAmount can only be triggered two times', function() {
       var state = {

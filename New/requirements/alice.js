@@ -2,11 +2,11 @@
 
 
 var alice = {
-			firstname:'Jan',
+			firstname:'Alice',
 			lastname:'Smith',
 			listOfCoupons:[],
 			amount: 0,
-			friendList:[], 
+			friendList:[],
 			stealCoupon : function(index){
 				return this.friendList[index].listOfCoupons[index];
 			},
@@ -28,8 +28,14 @@ var alice = {
 			},
 			removeAmountNothing : function(amount){
 				console.log('nothing')
+			},
+			hello : function (){
+				return 'hello';
+			},
+			test : function(amount){
+				this.amount += amount
 			}
 };
 
-module.exports = alice;
 
+module.exports = alice;

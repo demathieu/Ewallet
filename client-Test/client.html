@@ -5,54 +5,55 @@
 </head>
     <body>
 hello
-<script> 
+<script>
 
-var state = {
-   popuptimes : 0,
-   // the parameters correspond to the ones in handler.set 
-   filter: function(){  
-    if(this.popuptimes > 2){
-      return false;
-    } else {
-      this.popuptimes++;
-      console.log(this.popuptimes);
-      return true;
-    }
-    //return true;
-  }
-}
+console.log("hello");
+
 
 //console.log(window)
 
 //var logger = logger(document.images);
 //logger.open("http://www.w3schools.com");
 //logger.src="test";
- // var test = new policy(state)
- //                 .deny({method: 'open'})
- //                 .install(window);
-//window.open("http://www.w3schools.com");
-//console.log(test);
-//test.open("http://www.w3schools.com");
-
-
-var handler = {
-  get: function(target,name,recv){
-    console.log("get: "+ name)
-    return function(... args){
-      return target[name].apply(this,args);
-    }
-    
-  }
+var state = {
+	 popuptimes : 0,
+	 // the parameters correspond to the ones in handler.set
+	 filter: function(target,name,value,recv){
+	 	if(this.popuptimes >= 2){
+	 		return false;
+	 	} else {
+			this.popuptimes++;
+			return true;
+		}
+	}
 }
 
-var proxy = new Proxy(alice,handler);
+  var test = new policy(state)
+                  .deny({method: 'open'})
+                  .install(window);
+//window.open("http://www.w3schools.com");
+//console.log(test);
+test.open("http://www.w3schools.com");
+
+
+// var handler = {
+//   get: function(target,name,recv){
+//     console.log("get: "+ name)
+//     return function(... args){
+//       return target[name].apply(this,args);
+//     }
+//
+//   }
+// }
+//
+// var proxy = new Proxy(alice,handler);
 //proxy.alert("test");
-console.log(proxy.removeAmount(10))
+// console.log(proxy.removeAmount(10))
 //window.alert("test");
  // var proxy = new Proxy(document,handler);
  // proxy.createElement("Iframe");
 
 console.log("done");
-</script>	
+</script>
     </body>
 </html>
